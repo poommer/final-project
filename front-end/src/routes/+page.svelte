@@ -7,5 +7,5 @@
 </script>
 
 <body>
-    <h1>good morning!</h1>
+    <h1 class="text-xxl">good morning!</h1>
 </body>
