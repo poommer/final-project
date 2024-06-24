@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer base {
+    @font-face {
+        font-family: 'PK-Loei-Medium';
+        src: url('/PK-Loei-Medium.ttf') 
+        format('truetype') /* ไฟล์ฟอนต์ในรูปแบบ woff2 */
+      }
+
+      body{
+        font-family: 'PK-Loei-Medium';
+      }
+  }
