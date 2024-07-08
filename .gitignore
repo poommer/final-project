@@ -1,0 +1,7 @@
+# ข้ามโฟลเดอร์ node_modules ใน front-end
+/front-end/node_modules
+
+# ข้ามโฟลเดอร์ node_modules ใน back-end
+/back-end/node_modules
+
+/.vscode
