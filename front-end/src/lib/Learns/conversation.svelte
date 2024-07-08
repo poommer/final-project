@@ -75,7 +75,7 @@
 </div>
 
     <div class="flex justify-center items-center">
-    <button class="w-[10rem] h-12 text-[20px] bg-teal-200 text-emerald-700 p-1 rounded-xl relative bottom-[-10rem]" on:click={noCon === 6 ? toSummary :addNo}>{noCon === undefined ? 'start' : noCon === 6 ? 'next to page' : 'next ==>'}</button>
+    <button class={`w-[10rem] h-12 text-[20px] bg-amber-100 text-amber-600 p-1 rounded-xl relative bottom-[-10rem] ${noCon === 6 ? 'hidden' : ''}`} on:click={noCon === 6 ? toSummary :addNo} >{noCon === undefined ? 'start' : noCon === 6 ? 'next to page' : 'next ==>'}</button>
     </div>
     
 </body>
