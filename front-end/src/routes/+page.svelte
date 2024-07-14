@@ -1,8 +1,8 @@
 <script>
+	import { onMount } from 'svelte';
 import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 
-import { onMount } from 'svelte';
 
 import { goto } from '$app/navigation';
 
@@ -14,21 +14,24 @@ let user_name;
 let user_email;
 
 onMount(() => {
+    console.log('Hello');
     userCheck = localStorage.getItem('user')
-    user_name = JSON.parse(userCheck).user_name
-    user_email = JSON.parse(userCheck).user_email
     console.log(userCheck);
 
-    if(JSON.parse(userCheck).user_status === "wait verify"){
+    if(userCheck){
+        user_name = JSON.parse(userCheck).user_name
+        user_email = JSON.parse(userCheck).user_email
+        if(JSON.parse(userCheck).user_status === "wait verify"){
         goto('/register')
     }
+    }
+
     
-
     error = sessionStorage.getItem('error')
-
     sessionStorage.removeItem('error')
 
 })
+
 
 </script>
 
@@ -67,5 +70,6 @@ onMount(() => {
 
 {#if userCheck}
     <h1 class="text-4xl">welcome <span class="text-5xl text-ec-yello">{user_name}</span></h1>
+    <p class="text-2xl">login with google account: <span class="text-2xl text-ec-green">{user_email}</span></p>
 {/if}
 </div>

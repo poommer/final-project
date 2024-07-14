@@ -15,13 +15,15 @@
     let username ;
     let gender = 'male' ;
     let birthday ;
-onMount(() => {
-    userlocal = JSON.parse(localStorage.getItem('user'))
-    userID = userlocal.user_ID
 
-    if(userlocal === null){
+onMount(async () => {
+    userlocal = await localStorage.getItem('user')
+    if(userlocal === null || userlocal === undefined ){
         sessionStorage.setItem('error', 'login, please.')
         goto('/')
+    }else{
+        userProps = JSON.parse(userlocal)
+        userID = userProps.user_ID
     }
 })
 
@@ -44,10 +46,10 @@ let register = async () => {
     )
     
     if(response.data.status === 200){
-        userlocal.user_name = username;
-        userlocal.user_status = 'verified';
+        userProps.user_name = username;
+        userProps.user_status = 'verified';
 
-        localStorage.setItem('user', JSON.stringify(userlocal))
+        localStorage.setItem('user', JSON.stringify(userProps))
         goto('/')
     }
     console.log(response.data); 
