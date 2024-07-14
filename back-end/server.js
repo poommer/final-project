@@ -127,7 +127,7 @@ app.get('/auth/google/checkEmail', async (req, res) => {
 
 
 app.put('/auth/register', async (req, res) => {
-    const { id, name, birthday, gender, updateStatus } = req.body
+    const { id, name, birthday, gender } = req.body
 
     try {
 
@@ -144,16 +144,9 @@ app.put('/auth/register', async (req, res) => {
             if (result.affectedRows === 0) {
                 res.status(404).json({status:500, message:'No rows updated'});
               } else {
-                let { user_ID, user_name, user_email, user_status  } = result[0]
                 res.status(200).json({
                     status:200, 
-                    message:'Data updated successfully',
-                    response: {
-                        user_ID: user_ID,
-                        user_name: user_name,
-                        user_email:user_email,
-                        user_status:user_status
-                    }
+                    message:'Data updated successfully'
                 });
               }
 
