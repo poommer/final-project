@@ -10,11 +10,14 @@
     let userProps ;
     let userID;
 
+    let errorUpdate = false
+
+    let username ;
+    let gender = 'male' ;
+    let birthday ;
 onMount(() => {
-    userlocal = localStorage.getItem('user')
-    userProps = { ... JSON.parse(userlocal)};
-    console.log(userProps);
-    userID = userProps.user_ID
+    userlocal = JSON.parse(localStorage.getItem('user'))
+    userID = userlocal.user_ID
 
     if(userlocal === null){
         sessionStorage.setItem('error', 'login, please.')
@@ -23,12 +26,14 @@ onMount(() => {
 })
 
 
-    let username ;
-    let gender = 'male' ;
-    let birthday ;
+
+
+
+
 
 let register = async () => {
     try{
+        if(username !== undefined && gender !== undefined && birthday !== undefined){
         let response = await axios.put(`${PUBLIC_BASE_API_URL}/auth/register`,
         {
             "id": userID,
@@ -39,14 +44,33 @@ let register = async () => {
     )
     
     if(response.data.status === 200){
-        localStorage.setItem('user', JSON.stringify(response.data.response))
+        userlocal.user_name = username;
+        userlocal.user_status = 'verified';
+
+        localStorage.setItem('user', JSON.stringify(userlocal))
         goto('/')
     }
-    console.log(response.data);
+    console.log(response.data); 
+
+}else{
+    errorUpdate = true
+}
 } catch(err) {
+    console.log(err.message);
+}
 
 }
 
+
+
+
+let keyupUpdate = async () =>{
+
+    if(errorUpdate){
+        if(username.length > 0 ||  birthday.length > 0){
+            errorUpdate = false
+        }
+    }
 }
 
 
@@ -55,11 +79,13 @@ let register = async () => {
 
 <div>
     <h1>welcome to register page ID: {userID}</h1>
-
-    <form>
+{#if errorUpdate}
+    <p class="text-ec-light-yello">error, Fill in all fields.</p>
+{/if}
+    <div>
         <div>  
             <label for="username">username</label>  
-            <input type="text" name="username" bind:value={username}>
+            <input type="text" name="username" bind:value={username} class="text-black" on:keyup={keyupUpdate}>
         </div>
         
         <div>  
@@ -71,17 +97,12 @@ let register = async () => {
         
         <div>  
             <label for="birthDay">birth day</label>  
-            <input type="date" name="birthDay" bind:value={birthday}>
+            <input type="date" name="birthDay" bind:value={birthday}  class="text-black" on:keyup={keyupUpdate}>
         </div>
 
 
-        <button on:click={register}>submit</button>
+        <button on:click={register} class="bg-slate-100 text-gray-800 p-1 rounded-sm mt-4">submit</button>
 
-    </form>
+    </div>
 </div>
 
-<style>
-    form input{
-        color: black;
-    }
-</style>

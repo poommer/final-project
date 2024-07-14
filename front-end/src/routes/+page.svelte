@@ -4,12 +4,25 @@ import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 import { onMount } from 'svelte';
 
+import { goto } from '$app/navigation';
+
 let error ;
 let userCheck ;
+
+let dataUser;
+let user_name;
+let user_email;
+
 onMount(() => {
     userCheck = localStorage.getItem('user')
+    user_name = JSON.parse(userCheck).user_name
+    user_email = JSON.parse(userCheck).user_email
     console.log(userCheck);
 
+    if(JSON.parse(userCheck).user_status === "wait verify"){
+        goto('/register')
+    }
+    
 
     error = sessionStorage.getItem('error')
 
@@ -50,4 +63,9 @@ onMount(() => {
 {:else}
     <button class="flex justify-center items-center gap-1 bg-slate-100 text-gray-800 p-1 rounded-sm" on:click={()=>{localStorage.removeItem('user'); userCheck = localStorage.getItem('user')}}>logout</button>
 {/if} 
+
+
+{#if userCheck}
+    <h1 class="text-4xl">welcome <span class="text-5xl text-ec-yello">{user_name}</span></h1>
+{/if}
 </div>
