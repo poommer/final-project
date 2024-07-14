@@ -101,10 +101,10 @@ app.get('/auth/google/checkEmail', async (req, res) => {
                                     status: 201,
                                     message: 'created account.',
                                     response: {
-                                        user_ID: user_ID,
-                                        user_name: user_name,
-                                        user_email:user_email,
-                                        user_status:user_status
+                                        user_ID: id,
+                                        user_name: '',
+                                        user_email:email,
+                                        user_status:'wait verify'
                                     }
                                 })
                             })
