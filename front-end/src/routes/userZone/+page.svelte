@@ -61,20 +61,7 @@ onMount(() => {
         <!-- {:else}
         --->
 
-        {#if userCheck === null }
-        <a href={`${PUBLIC_BASE_API_URL}/auth/google`} class="flex justify-center items-center gap-1 bg-slate-100 text-gray-800 p-1 rounded-sm">
-            <img src="https://cdn-icons-png.flaticon.com/128/300/300221.png" alt="google-login" class="w-[2rem]">
-            continue with google
-        </a>
-        {:else}
-            <button class="flex justify-center items-center gap-1 bg-slate-100 text-gray-800 p-1 rounded-sm" on:click={()=>{localStorage.removeItem('user'); userCheck = localStorage.getItem('user')}}>logout</button>
-        {/if} 
-
-
-        {#if userCheck}
-            <h1 class="text-4xl">welcome <span class="text-5xl text-ec-yello">{user_name}</span></h1>
-            <p class="text-2xl">login with google account: <span class="text-2xl text-ec-green">{user_email}</span></p>
-        {/if}
+      
         </div>
 
 
