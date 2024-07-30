@@ -1,14 +1,12 @@
 <script>
-    import { onMount } from 'svelte';
     import axios from 'axios';
     import { goto } from '$app/navigation';
     import { fail } from '@sveltejs/kit';
 
     import { PUBLIC_BASE_API_URL } from '$env/static/public'
+  import { parse } from 'svelte/compiler';
 
-    let userlocal ;
-    let userProps ;
-    let userID;
+    
 
     let errorUpdate = false
 
@@ -16,29 +14,30 @@
     let gender = 'male' ;
     let birthday ;
 
-onMount(async () => {
-    userlocal = await localStorage.getItem('user')
-    if(userlocal === null || userlocal === undefined ){
+
+
+    let userProps;
+    let localUser;
+let funcCheck = async () => {
+    if(localStorage.getItem('user')){
+    userProps = await JSON.parse(localStorage.getItem('user'));
+    return userProps
+    }else{
         sessionStorage.setItem('error', 'login, please.')
         goto('/')
-    }else{
-        userProps = JSON.parse(userlocal)
-        userID = userProps.user_ID
     }
-})
+}
 
 
 
 
 
-
-
-let register = async () => {
+let register = async (ID) => {
     try{
         if(username !== undefined && gender !== undefined && birthday !== undefined){
         let response = await axios.put(`${PUBLIC_BASE_API_URL}/auth/register`,
         {
-            "id": userID,
+            "id": ID,
             "name": username,
             "birthday": birthday,
             "gender":gender
@@ -79,8 +78,13 @@ let keyupUpdate = async () =>{
  
 </script>
 
-<div>
-    <h1>welcome to register page ID: {userID}</h1>
+
+{#await funcCheck()}
+    <p>loading...</p>
+{:then userlocal} 
+{#if userlocal && userlocal.user_status === 'wait verify'}
+    <div>
+    <h1>welcome to register page ID: {userlocal.user_ID}</h1>
 {#if errorUpdate}
     <p class="text-ec-light-yello">error, Fill in all fields.</p>
 {/if}
@@ -103,8 +107,19 @@ let keyupUpdate = async () =>{
         </div>
 
 
-        <button on:click={register} class="bg-slate-100 text-gray-800 p-1 rounded-sm mt-4">submit</button>
+        <button on:click={()=>{register(userlocal.user_ID)}} class="bg-slate-100 text-gray-800 p-1 rounded-sm mt-4">submit</button>
 
     </div>
 </div>
+
+{:else}
+<h1>
+        404 <br>
+        <span>Not Found</span>
+    </h1>
+{/if}
+{/await}
+    
+
+
 

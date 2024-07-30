@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');
 const axios = require('axios');
-const { error } = require('console');
+const { error, log } = require('console');
 const cors = require("cors");
 
 const app = express()
@@ -132,13 +132,14 @@ app.put('/auth/register', async (req, res) => {
     try {
 
         let SQL = `UPDATE user SET user_name = ?, user_gender = ?, user_birthday = ?, user_status = ? WHERE user_ID = ${id}`
-
+        console.log(SQL);
         conn.execute(SQL, [name, gender,  birthday, 'verified'], (err, result) => {
             if (err) {
                 res.status(500).json({
                     status: 500,
                     message: err.message
                 });
+               
             }
 
             if (result.affectedRows === 0) {
