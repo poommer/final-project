@@ -53,7 +53,7 @@ let user_email;
             
 
             <ChapterMenu/>
-            <a href="lesson/">chapter1 level1</a>
+            
 
             <!-- <form action="?/login" method="post">
             <button class="flex justify-center items-center gap-1 bg-slate-100 text-gray-800 p-1 rounded-sm">
