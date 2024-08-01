@@ -12,13 +12,15 @@
 
 /*****************************************************************/
 
-    onMount(() => {
+    onMount(async () => {
 
         error = sessionStorage.getItem('error')
         sessionStorage.removeItem('error')
-
+         await localStorage.setItem('user', JSON.stringify({user_ID:"101949070835837820442",user_name:"chak",user_email:"65209010002@thonburi.ac.th",user_status:"verified"}))
         userCheck = localStorage.getItem('user')
         console.log(userCheck);
+
+        
 
  
 
