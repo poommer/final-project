@@ -33,11 +33,11 @@
     {#if userCheck === undefined}
         loading....
 
- /* Login Zone */
-    {:else if !userCheck}
-        <Login error={error}/>
+ <!-- /* Login Zone */ -->
+    <!-- {:else if !userCheck}
+        <Login error={error}/> -->
 
-/* user Zone */
+<!-- /* user Zone */ -->
     {:else if userCheck}
     <UserHomePage error={error} />
     {/if}
