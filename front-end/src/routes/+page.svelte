@@ -32,9 +32,12 @@
 <div class="w-full h-screen flex">
     {#if userCheck === undefined}
         loading....
+
+ /* Login Zone */
     {:else if !userCheck}
         <Login error={error}/>
 
+/* user Zone */
     {:else if userCheck}
     <UserHomePage error={error} />
     {/if}

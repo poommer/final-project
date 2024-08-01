@@ -1,4 +1,5 @@
 <script>
+	import ChapterMenu from './../component/chapterMenu.svelte';
 	import { onMount } from 'svelte';
     import Nav from "../../lib/component/nav.svelte";
 import { PUBLIC_BASE_API_URL } from '$env/static/public'
@@ -14,31 +15,31 @@ let dataUser;
 let user_name;
 let user_email;
 
-onMount(() => {
-    console.log('Hello');
-    userCheck = localStorage.getItem('user')
-    console.log(userCheck);
+// onMount(() => {
+//     console.log('Hello');
+//     userCheck = localStorage.getItem('user')
+//     console.log(userCheck);
 
-    if(userCheck){
-        user_name = JSON.parse(userCheck).user_name
-        user_email = JSON.parse(userCheck).user_email
-        if(JSON.parse(userCheck).user_status === "wait verify"){
-        goto('../register')
-        sessionStorage.setItem('error', 'login, please.')
-    }
-    }else{ 
-        goto('/')
-    }
+//     if(userCheck){
+//         user_name = JSON.parse(userCheck).user_name
+//         user_email = JSON.parse(userCheck).user_email
+//         if(JSON.parse(userCheck).user_status === "wait verify"){
+//         goto('../register')
+//         sessionStorage.setItem('error', 'login, please.')
+//     }
+//     }else{ 
+//         goto('/')
+//     }
 
 
-})
+// })
 
 
 </script>
 
 
 <div class="w-full h-full flex">
-    <Nav userCheck={userCheck} username={user_name} email={ user_email} />
+    <Nav  pageCurrent='home' />
 
 
 
@@ -50,7 +51,8 @@ onMount(() => {
     {/if}
            
             
-            <h1 class="text-rose-800 text-9xl">อย่าลืมระบบจัดอันดับคะแนนเด้ออ</h1>
+
+            <ChapterMenu/>
             <a href="lesson/">chapter1 level1</a>
 
             <!-- <form action="?/login" method="post">
