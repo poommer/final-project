@@ -5,6 +5,14 @@ const config = {
   kit: {
     adapter: adapter()
   },
-  preprocess: vitePreprocess()
+  preprocess: vitePreprocess(),
+  "dependencies": {
+    "@sveltejs/adapter-auto": "^1.0.0", // หรือเวอร์ชันที่คุณใช้
+    // other dependencies
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0", // หรือเวอร์ชันที่คุณใช้
+    // other devDependencies
+  }
 };
 export default config;
