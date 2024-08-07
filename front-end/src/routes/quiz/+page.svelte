@@ -1,5 +1,5 @@
 <script>
-	import QuizMenu from './../../lib/component/quizMenu.svelte';
+	// import QuizMenu from './../../lib/component/quizMenu.svelte';
 	import Nav from './../../lib/component/nav.svelte';
 </script>
 
@@ -7,6 +7,6 @@
     <Nav  pageCurrent='quiz' />
     <div class="ml-[20%]">
 
-        <QuizMenu/>
+        <!-- <QuizMenu/> -->
     </div>
 </div>
