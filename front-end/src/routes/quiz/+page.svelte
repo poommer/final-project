@@ -10,3 +10,10 @@
         <QuizMenu/>
     </div>
 </div>
+
+<div class="star">
+    <div class="star-icon">
+        <input type="radio" id="rating">
+        <label for="rating" class="fa fa-star"></label>
+    </div>
+</div>
