@@ -55,11 +55,17 @@ let user_email;
 <!-- <div class="">
     <ChapterMenu/>
 </div> -->
-<div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
+<div class="ml-3 w-full overflow-scroll flex flex-col items-center">
+    <div class=" mb-4">
+        <ChapterMenu />
+    </div>
+    <div class="relative w-[150px] border-b-[5px] border-ec-purple border-dashed ml-[100px] z-[-1] transform rotate-[-45deg]"></div>
     
-    <ChapterMenu/>
-
+    <div class=" mb-4">
+        <ChapterMenu />
+    </div>
 </div>
+
 
       
         </div>
