@@ -2,11 +2,13 @@
 	import ChapterMenu from './../component/chapterMenu.svelte';
 	import { onMount } from 'svelte';
     import Nav from "../../lib/component/nav.svelte";
+    
 import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 
 
 import { goto } from '$app/navigation';
+  import Ranking from '../component/ranking.svelte';
 
 export let error ;
 let userCheck ;
@@ -39,38 +41,33 @@ let user_email;
 
 
 <div class="w-full h-full flex">
-    <Nav  pageCurrent='home' />
+    <nav class="w-[20%] bg-slate-50">
+        <Nav  pageCurrent='home' />
+    </nav>
 
-
-
-    <div class="ml-[20%]">
-
-        <div>
+    <main class="w-[80%]     flex">
+        <div class="w-[70%] flex">
             {#if error !== null}
         <p class="text-rose-400 text-xl">{error}</p>
     {/if}
-           
-            
+<!--            
+           <ChapterMenu/>   -->
+<!-- <div class="">
+    <ChapterMenu/>
+</div> -->
+<div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
+    
+    <ChapterMenu/>
 
-            <ChapterMenu/>
-            
-
-            <!-- <form action="?/login" method="post">
-            <button class="flex justify-center items-center gap-1 bg-slate-100 text-gray-800 p-1 rounded-sm">
-                <img src="https://cdn-icons-png.flaticon.com/128/300/300221.png" alt="google-login" class="w-[2rem]">
-                continue with google
-            </button>
-        </form> -->
-
-
-        <!-- {:else}
-        --->
+</div>
 
       
         </div>
 
-
-    </div>
+        <div class="w-[30%] flex flex-col items-center">
+            <Ranking/>
+        </div>
+    </main>
     
   </div>
 
