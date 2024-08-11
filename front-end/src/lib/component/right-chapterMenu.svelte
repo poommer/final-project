@@ -10,7 +10,7 @@ export let urlchapter
             <span class=" text-ec-purple text-[80px]">1</span>
         </button>
 
-        <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[100px] bottom-[-190px] z-[-1] transform rotate-45"></div>
+        <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[100px] bottom-[-190px] z-[-1] transform rotate-[45deg]"></div>
 
        <button class="z-1 flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
            absolute left-[210px] bottom-[-330px]" >
