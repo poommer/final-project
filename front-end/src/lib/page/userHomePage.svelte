@@ -59,7 +59,7 @@ let user_email;
 </div> -->
 <div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
     
-    <ChapterMenu/>
+    <LeftChapterMenu/>
 
 </div>
 
