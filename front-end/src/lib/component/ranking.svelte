@@ -14,7 +14,7 @@
 </script>
 
 <div class=" bg-ec-dark-blue-4 w-11/12 mt-4 rounded-lg p-4">
-    <h1 class="text-4xl text-center tex">EC Ranking</h1>
+    <h1 class="text-5xl text-center uppercase text-ec-yellow-400">EC Ranking</h1>
     {#await loadData()}
         loading....
     {:then data} 

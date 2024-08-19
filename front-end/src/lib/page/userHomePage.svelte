@@ -57,13 +57,12 @@ let user_email;
 <!-- <div class="">
     <ChapterMenu/>
 </div> -->
-<div class=" w-full overflow-scroll flex flex-col  items-center">
+<div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
     
-    <LeftChapterMenu/>
-
-    <RightChapterMenu/>
+    <ChapterMenu/>
 
 </div>
+
 
       
         </div>

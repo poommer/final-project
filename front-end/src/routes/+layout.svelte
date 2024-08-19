@@ -9,10 +9,10 @@
    <slot />   
 
 
+<style>
+  :global(body){
+        background-color: #282C36;
+        color: #fff;
+      }
 
-  <style>
-    body{
-      background-color: #282C36;
-     
-    }
-  </style>
+</style>
