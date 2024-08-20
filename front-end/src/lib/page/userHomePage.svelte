@@ -1,4 +1,5 @@
 <script>
+	import ChapterMenu from './../component/chapterMenu.svelte';
 	
 	import { onMount } from 'svelte';
     import Nav from "../../lib/component/nav.svelte";
@@ -9,8 +10,7 @@ import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 import { goto } from '$app/navigation';
   import Ranking from '../component/ranking.svelte';
-  import LeftChapterMenu from '../component/left-chapterMenu.svelte';
-  import RightChapterMenu from '../component/right-chapterMenu.svelte';
+
 
 export let error ;
 let userCheck ;
@@ -59,7 +59,7 @@ let user_email;
 </div> -->
 <div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
     
-    <LeftChapterMenu/>
+    <ChapterMenu/>
 
 </div>
 
