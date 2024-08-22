@@ -6,15 +6,15 @@
   import EchoWord from "../../../lib/game/echo_Word.svelte";
   import EchoSentence from '../../../lib/game/echo_sentence.svelte';
 
-  let word = 'what is your name?'
+  let word = 'cat'
 
 </script>
 
 <div class=" h-screen flex flex-col gap-4 justify-center items-center ">
 <!-- <EchoWord word={word}/> -->
 
-<EchoSentence word={word}/>
-<!-- <Word_Guessing word={word}/> -->
+<!-- <EchoSentence word={word}/> -->
+<Word_Guessing word={word}/>
 </div>
 
 

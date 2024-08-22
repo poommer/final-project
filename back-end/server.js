@@ -177,7 +177,7 @@ app.put("/auth/register", async (req, res) => {
 // admin API
 
 /* account admin */
-app.post("/api/admin/account/register", async (req, res) => {
+app.post("", async (req, res) => {
     const { username, password, role } = req.body;
     const saltRounds = 10;
 
@@ -212,7 +212,7 @@ app.post("/api/admin/account/register", async (req, res) => {
 
 
 
-app.get("/api/admin/account/login", async (req, res) => {
+app.post("/api/admin/account/login", async (req, res) => {
     const { username, password } = req.body;
 
     try {

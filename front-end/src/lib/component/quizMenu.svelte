@@ -1,13 +1,13 @@
 <script>
     
 </script>
-<div class=" w-[470px] h-[350px] bg-ec-dark-blue-2 flex flex-col justify-between">
+<div class=" w-[470px] h-[350px] rounded-xl bg-ec-dark-blue-2 flex flex-col justify-between">
     <div class="flex flex-row space-x-1">
         <img src="icon/star.png" alt="" width="20px">
         <img src="icon/star.png" alt="" width="20px">
         <img src="icon/star.png" alt="" width="20px">
     </div>
-    <div class="flex justify-center items-center mt-[30px]">
+    <div class="flex justify-center items-center mt-[25px]">
     <img src="icon/animal.png" alt="animals" width="200px">
     </div>
 
@@ -21,8 +21,6 @@
     <img src="https://cdn-icons-png.flaticon.com/128/3073/3073440.png" alt="" style="height: 25px;" >
     <span>5m</span>
     </div>
-
-
 </div>
 
 

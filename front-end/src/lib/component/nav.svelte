@@ -5,6 +5,8 @@
 
     export let pageCurrent;
 
+    export let fileNav ;
+
     let popupLogout = false;
 
 
@@ -21,13 +23,13 @@ let profileData = async () => {
     {#await profileData() then dataLocal }
     <div class=" relative">
         <div class="absolute w-auto">
-            <img src="favicon.png" alt="icon" class="m-0 p-0 w-20">
+            <img src="/favicon.png" alt="icon" class="m-0 p-0 w-20">
         </div>
 
         <div class="bg-ec-dark-blue-3 flex items-end justify-end p-2">
             <button class="max-w-[80%]  flex justify-end p-2 gap-2 bg-ec-dark-blue-1 rounded-full" on:click={()=>{popupLogout = !popupLogout; console.log(popupLogout);
             }}>
-                <img src="imgProfile/man/1.jpg" alt="" class="w-[40px] h-[40px] rounded-full">
+                <img src="/imgProfile/man/1.jpg" alt="" class="w-[40px] h-[40px] rounded-full">
                 <div class="text-ec-light-yellow">{dataLocal.user_name}</div>
             </button>
         </div>
@@ -41,6 +43,7 @@ let profileData = async () => {
             <p><span class="text-ec-yellow text-xl">login with email:</span> <br>
                 {dataLocal.user_email}</p>
         </div>
+        <a href={`profile/${dataLocal.user_ID}`}>profile</a>
         <div class="flex justify-end pb-2">
             <Button funcBtn={()=>{localStorage.removeItem('user'); dataLocal = localStorage.getItem('user'); window.location = '/'}} compoData={{bg:'white', Text:'rose-800', shadowColor:'#cdcdcd', shadowColorActive:'#B4B4B4',other:''}}>
                 logout

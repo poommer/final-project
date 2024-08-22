@@ -9,6 +9,18 @@ import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 import { goto } from '$app/navigation';
   import Nav from '../../../lib/component/nav.svelte';
+
+
+  let dataLocal = {};
+
+let profileData = async () => {
+    
+}
+
+onMount( ()=> {
+  dataLocal = JSON.parse(localStorage.getItem('user'))
+  return dataLocal ;
+})
 </script>
 
 <div class="w-full h-full flex">
@@ -16,7 +28,10 @@ import { goto } from '$app/navigation';
         <Nav  pageCurrent='home' />
     </nav>
 
+
   <main class="w-[80%] ">
+
+
     <div class=" flex flex-row justify-end space-x-3 mr-[50px] mt-[30px]">
       <button class=" w-[200px]  bg-red-600 rounded-xl shadow-[0px_10px_0_0#a11f1f] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#a11f1f] ">chang password</button>
       <button class="w-[160px]  bg-ec-yellow rounded-xl shadow-[0px_10px_0_0#A66702] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#A66702] ">quiz history</button>  
@@ -74,6 +89,8 @@ import { goto } from '$app/navigation';
             <div class=" w-[380px] bg-ec-dark-blue-1 rounded-2xl mt-[10px] ml-[10px]">
               ...
             </div>
-    </div>     
+    </div>  
+    
+
   </main>
 </div>

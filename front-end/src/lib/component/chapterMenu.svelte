@@ -6,35 +6,35 @@
     
             <p class="relative left-[15px] text-[35px]">chapter1</p>
              <button class="z-1 w-[140px] h-[140px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805]  
-                absolute"  >
-                <span class=" text-ec-purple text-[80px]">1</span>
+                absolute hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]"  >
+                1
             </button>
     
             <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[100px] bottom-[-190px] z-[-1] transform rotate-[45deg]"></div>
     
            <button class="z-1 flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-               absolute left-[210px] bottom-[-330px]" >
+               absolute left-[210px] bottom-[-330px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" >
                <img src="icon/book.png" alt="" class="w-16">
            </button>
     
             <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[100px] bottom-[-380px] z-[-10] transform rotate-[-45deg]"></div>
     
             <button class="z-1 flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-                absolute left-[30px] bottom-[-510px]" > 
+                absolute left-[30px] bottom-[-510px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" > 
                 <img src="icon/chat.png" alt="">
             </button>
     
                 <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[100px] bottom-[-550px] z-[-10] transform rotate-[45deg]"></div>
       
             <button class="z-1  flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-            absolute left-[220px] bottom-[-680px]" >
+            absolute left-[220px] bottom-[-680px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" >
             <img src="icon/book.png" alt="">
             </button>
     
                 <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[110px] bottom-[-730px] z-[-10] transform rotate-[-45deg]"></div>
        
             <button class="z-1  flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-            absolute left-[40px] bottom-[-860px]" >
+            absolute left-[40px] bottom-[-860px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" >
             <img src="icon/chat.png" alt="">
             </button>
     
@@ -42,14 +42,14 @@
     
     
             <button class="z-1  flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-            absolute left-[220px] bottom-[-1040px]" >
+            absolute left-[220px] bottom-[-1040px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" >
             <img src="icon/book.png" alt="">
             </button>
     
                 <div class="w-[150px] border-b-[5px] border-ec-purple border-dashed  absolute left-[110px] bottom-[-1090px] z-[-10] transform rotate-[-45deg]"></div>
     
             <button class="z-1  flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-            absolute left-[40px] bottom-[-1220px]" >
+            absolute left-[40px] bottom-[-1220px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]"  >
             <img src="icon/chat.png" alt="">
             </button>
     
@@ -57,7 +57,7 @@
     
                 
             <button class="z-1  flex justify-center items-center w-[100px] h-[100px] bg-ec-light-yellow rounded-full shadow-[0px_10px_0_0_#755805] active:translate-y-[5px] active:shadow-[0px_5px_0_0_#755805] 
-            absolute left-[220px] bottom-[-1400px]" >
+            absolute left-[220px] bottom-[-1400px] hover:bg-[#ffec5f] hover:text-[#9549e1]  hover:translate-y-[5px] hover:shadow-[0px_5px_0_0_#8b6b0e] text-ec-purple  text-[80px]" >
             <img src="icon/quiz.png" alt="">
             </button>
     
