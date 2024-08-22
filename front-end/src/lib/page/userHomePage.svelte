@@ -19,24 +19,24 @@ let dataUser;
 let user_name;
 let user_email;
 
-// onMount(() => {
-//     console.log('Hello');
-//     userCheck = localStorage.getItem('user')
-//     console.log(userCheck);
+onMount(() => {
+    console.log('Hello');
+    userCheck = localStorage.getItem('user')
+    console.log(userCheck);
 
-//     if(userCheck){
-//         user_name = JSON.parse(userCheck).user_name
-//         user_email = JSON.parse(userCheck).user_email
-//         if(JSON.parse(userCheck).user_status === "wait verify"){
-//         goto('../register')
-//         sessionStorage.setItem('error', 'login, please.')
-//     }
-//     }else{ 
-//         goto('/')
-//     }
+    if(userCheck){
+        user_name = JSON.parse(userCheck).user_name
+        user_email = JSON.parse(userCheck).user_email
+        if(JSON.parse(userCheck).user_status === "wait verify"){
+        goto('../register')
+        sessionStorage.setItem('error', 'login, please.')
+    }
+    }else{ 
+        goto('/')
+    }
 
 
-// })
+})
 
 
 </script>
