@@ -14,10 +14,13 @@ import Button from "../../lib/component/button.svelte";
         <p class="text-rose-400 text-xl">{error}</p>
     {/if}
         <h1 class="text-5xl text-center font-bold">SIGN IN TO <br><span  class="text-ec-yellow">EC ENGLISH LEARNING</span></h1>
-    <Button funcBtn={()=>{window.location = `${PUBLIC_BASE_API_URL}/auth/google`}} compoData={{bg:'white', Text:'gray-800', shadowColor:'#cdcdcd', shadowColorActive:'#B4B4B4',other:''}}>
-        <img src="https://img.icons8.com/color/48/000000/google-logo.png" class="w-6 h-6 mr-2"/>
-        continue with google
-    </Button>
+   <div class="flex flex-col justify-center items-center"> 
+       <Button funcBtn={()=>{window.location = `${PUBLIC_BASE_API_URL}/auth/google`}} compoData={{bg:'white', Text:'gray-800', shadowColor:'#cdcdcd', shadowColorActive:'#B4B4B4',other:''}}>
+           <img src="https://img.icons8.com/color/48/000000/google-logo.png" class="w-6 h-6 mr-2"/>
+           continue with google
+        </Button>
+        <small class="mt-4 text-[16px]">or <a href="/admin" class=" text-ec-yellow underline">login to admin</a></small>
+    </div>
     </div>
 
 
