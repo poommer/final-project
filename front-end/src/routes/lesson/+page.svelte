@@ -1,4 +1,5 @@
 <script>
+	import Word_Guessing from './../../lib/game/word_Guessing.svelte';
     import 'animate.css';
     
     import Conversation from "../../lib/Learns/conversation.svelte";
@@ -109,8 +110,9 @@
     let contentSentence = 0
 
     let randomContent = []
-    for(let i=1; i<=(vocabCount*2)+sentenceCount; i++){
-        let randomNo = Math.floor(Math.random()*3);
+    for(let i=1; i<=(vocabCount*3)+sentenceCount; i++){
+        let randomNo = Math.floor(Math.random()*6);
+        console.log(randomNo);
         
         if((randomNo === 1 || contentSentence === sentenceCount) && contentTxt < vocabCount ){
             randomContent.push('text');
@@ -121,7 +123,14 @@
         }else if((randomNo === 0 || contentSentence === sentenceCount) && contentSentence < sentenceCount){
             randomContent.push('sentence');
             contentSentence+=1
-        }else{
+        }else if((randomNo === 4 || contentSentence === sentenceCount) && contentSentence < sentenceCount){
+            randomContent.push('game1');
+            contentSentence+=1
+        }else if((randomNo === 5 || contentSentence === sentenceCount) && contentSentence < sentenceCount){
+            randomContent.push('game2');
+            contentSentence+=1
+        }       
+        else{
             if(contentTxt < vocabCount ){
             randomContent.push('text');
             contentTxt+=1
@@ -163,6 +172,10 @@ let data = {
             if(contentNo !== randomContent.indexOf('text')){
                 indexTxt +=1
             }
+        }else if(randomContent[contentNo] === 'game1'){
+            if(contentNo !== randomContent.indexOf('game1')){
+                indexTxt +=1
+            }
         }else  if(randomContent[contentNo] === 'sentence'){
             if(contentNo !== randomContent.indexOf('sentence')){
                 indexsen +=1
@@ -199,11 +212,13 @@ console.table({indexImg:indexImg, indexTxt:indexTxt, indexsen:indexsen, widthSta
         <div class="w-full h-full flex justify-center items-center">
             {#if randomContent[contentNo] === 'text'}
 
-                <VocabText wordEN={Learns[0].level1.vocab[indexTxt].text_th} wordTH={Learns[0].level1.vocab[indexTxt].text_en} /> 
+                <VocabText wordTH={Learns[0].level1.vocab[indexTxt].text_th} wordEN={Learns[0].level1.vocab[indexTxt].text_en} /> 
             {:else if randomContent[contentNo] === 'image'}
                 <VocabImg data={data} on:updateBtn={(event)=>{contentNext = event.detail.contentNext; console.log(contentNext);}}  /> 
-            {:else}
-                <VocabText wordEN={Learns[0].level1.sentence[indexsen].text_th} wordTH={Learns[0].level1.sentence[indexsen].text_en} /> 
+            {:else if randomContent[contentNo] === 'sentence'}
+                <VocabText wordEN={Learns[0].level1.sentence[indexsen].text_en} wordTH={Learns[0].level1.sentence[indexsen].text_th} /> 
+            {:else if randomContent[contentNo] === 'game1'}
+                    <Word_Guessing word={Learns[0].level1.vocab[indexTxt].text_en}/>
             {/if}
              
             

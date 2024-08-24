@@ -23,7 +23,7 @@ let profileData = async () => {
     {#await profileData() then dataLocal }
     <div class=" relative">
         <div class="absolute w-auto">
-            <img src="/favicon.png" alt="icon" class="m-0 p-0 w-20">
+           <a href="/"> <img src="/favicon.png" alt="icon" class="m-0 p-0 w-20"></a>
         </div>
 
         <div class="bg-ec-dark-blue-3 flex items-end justify-end p-2">

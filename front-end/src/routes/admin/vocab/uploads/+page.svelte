@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
   import 'animate.css';
   import { onMount } from 'svelte';
   import axios from 'axios';
@@ -81,6 +82,14 @@
         }
             });
             console.log(createData);
+            if(createData.status === 200){
+              sessionStorage.setItem('msg','created!')
+            }else{
+              sessionStorage.setItem('msg','not created!')
+
+            }
+
+            goto('/admin/vocab')
           } catch (uploadError) {
             console.error('Upload error:', uploadError.message);
           }
