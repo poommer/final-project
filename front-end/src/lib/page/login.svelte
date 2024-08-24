@@ -15,7 +15,7 @@ import Button from "../../lib/component/button.svelte";
     {/if}
         <h1 class="text-5xl text-center font-bold">SIGN IN TO <br><span  class="text-ec-yellow">EC ENGLISH LEARNING</span></h1>
    <div class="flex flex-col justify-center items-center"> 
-       <Button funcBtn={()=>{window.location = `${PUBLIC_BASE_API_URL}/auth/google`}} compoData={{bg:'white', Text:'gray-800', shadowColor:'#cdcdcd', shadowColorActive:'#B4B4B4',other:''}}>
+       <Button funcBtn={()=>{window.location = `https://api-ecproject.poommer.in.th/api/login/auth/google`}} compoData={{bg:'white', Text:'gray-800', shadowColor:'#cdcdcd', shadowColorActive:'#B4B4B4',other:''}}>
            <img src="https://img.icons8.com/color/48/000000/google-logo.png" class="w-6 h-6 mr-2"/>
            continue with google
         </Button>
