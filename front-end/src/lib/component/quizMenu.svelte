@@ -1,42 +1,26 @@
 <script>
     
 </script>
-<div class="relative left-[30px]  bottom-[-20px] space-y-5">
-    <div class="gap-[10px]  flex flex-row">
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2 space-y-20"> 
-            <div class=" relative w-[470px] h-[50px] bg-white flex flex-row">
-                <input type="radio" id="rating1">
-                <label for="rating1"></label>
-                <input type="radio" id="rating2">
-                <label for="rating2"></label>
-                <input type="radio" id="rating3">
-                <label for="rating3"></label>
-                <input type="radio" id="rating4">
-                <label for="rating4"></label>
-                <input type="radio" id="rating5">
-                <label for="rating5"></label>
-            </div>
-            
-                <div class=" relative w-[470px] h-[50px] bg-white">
-                <img src="https://cdn-icons-png.flaticon.com/128/2977/2977402.png" alt="animal" class=" absolute left-[170px]">
-                </div>
-                <div class="relative w-[470px] h-[50px] bg-white">
-                <span>Animal1</span>
-            </div>
-            
-        </div>
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2">2</div>
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2">3</div>
+<div class=" w-[470px] h-[350px] rounded-xl bg-ec-dark-blue-2 flex flex-col justify-between">
+    <div class="flex flex-row space-x-1">
+        <img src="icon/star.png" alt="" width="20px">
+        <img src="icon/star.png" alt="" width="20px">
+        <img src="icon/star.png" alt="" width="20px">
+    </div>
+    <div class="flex justify-center items-center mt-[25px]">
+    <img src="icon/animal.png" alt="animals" width="200px">
     </div>
 
-    <div class="gap-[10px] flex flex-row   ">
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2">1</div>
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2">2</div>
-        <div class=" w-[470px] h-[350px] bg-ec-dark-blue-2">3</div>
+    <div class=" relative text-ec-yellow text-[50px]">
+        <span>Animals #1</span>
     </div>
 
-
+    <div class="flex flex-row text-[20px] justify-normal space-x-0">
+    <img src="icon/doc.png" alt="docs"style="height: 25px;">
+    <span>10</span>
+    <img src="https://cdn-icons-png.flaticon.com/128/3073/3073440.png" alt="" style="height: 25px;" >
+    <span>5m</span>
+    </div>
 </div>
-
 
 
