@@ -48,11 +48,13 @@
         file_img: null,
         file_sound: null,
         imgTag: null,
-        audioSRC: null
+        audioSRC: null,
+        changeStatusImage:'1',
+        TagStatusImage:null
       });
     }
     entries = entries
-    console.log({ count: entries.length, input: inputNum });
+    console.log(entries);
   };
 
   let create = async () => {
@@ -76,7 +78,7 @@
           formData.append('word_List', entries[ind].word_List);
 
           try {
-            let createData = await axios.post(`http://localhost:3000/api/vocab/create?wl=${entries[ind].word_List}&we=${entries[ind].word_en}`, formData, {
+            let createData = await axios.post(`https://api-ecproject.poommer.in.th/api/content/vocab?wl=${entries[ind].word_List}&we=${entries[ind].word_en}`, formData, {
               headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -140,6 +142,10 @@
     console.log(checkInput);
   }
 
+  let changeStatusimg = (event, index) => {
+    entries[index].TagStatusImage.className = entries[index].changeStatusImage === 'No' ? 'hidden' : ''
+  }
+
   onMount(async () => {
     createRowInput();
   });
@@ -166,6 +172,8 @@
 
     console.log(entries);
   }
+
+  let changeStatusImage;
 </script>
 
 
@@ -195,8 +203,6 @@
       <th>word thai</th>
       <th>part of speech</th>
       <th>word list</th>
-      <!-- <th>image</th>
-      <th>sound</th> -->
     </tr>
   </thead>
 
@@ -219,28 +225,33 @@
           {/each}
         </select>
       </td>
-      <!-- <td>
-        <input type="file" name="file_image" on:change={(event) => handleFileChange(event, index)} />
-        <img bind:this={entries[index].imgTag} src="" alt="" />
-        </td>
-        <td>
-          <input type="file" name="file_sound" on:change={(event) => handleFileChange(event, index)} />
-          </td> -->
         </tr>
         
     <tr class="h-[5rem] border-t-2 border-t-ec-purple-600">
       <td colspan="2" class="text-center w-6/12 border-r-2 border-r-ec-purple-600">
-        <label for={`file_image${index}`}>
+         <div class="flex gap-4">
+              <label for={`img_Nstatus${[index]}`} class={`w-[4rem] m-1 p-1 rounded cursor-pointer ${entries[index].changeStatusImage === '1' ? 'bg-ec-purple-200' : 'bg-ec-purple text-white'}`}>
+                <input class="hidden" type="radio" name="img_status" id={`img_Nstatus${[index]}`} value="0" bind:group={entries[index].changeStatusImage}  on:change={()=>{entries[index].TagStatusImage.className = entries[index].changeStatusImage === '0' ? 'hidden' : ''; entries[index].file_img = entries[index].changeStatusImage === '0' ? true : null}}>
+                no
+              </label>
+  
+              <label for={`img_Ystatus${[index]}`} class={`w-[4rem] m-1 p-1 rounded cursor-pointer ${entries[index].changeStatusImage === '0' ? 'bg-ec-purple-200' : 'bg-ec-purple text-white'}`}>
+                <input class="hidden" type="radio" name="img_status" id={`img_Ystatus${[index]}`} value="1" bind:group={entries[index].changeStatusImage} on:change={()=>{entries[index].TagStatusImage.className = entries[index].changeStatusImage === '0' ? 'hidden' : ''; entries[index].file_img = entries[index].changeStatusImage === '0' ? true : null}}>
+                yes
+              </label>
+            </div>
+        <label for={`file_image${index}`} class bind:this={entries[index].TagStatusImage}>
           <div class="flex justify-center items-center">
+           
           <input type="file" name="file_image" id={`file_image${index}`} on:change={(event) => handleFileChange(event, index)} hidden />
-          <p class="bg-neutral-300 text-ec-purple cursor-pointer min-w-6/12 p-2 rounded-lg hover:bg-neutral-400 text-ec-purple-800  ">{entries[index].file_img === null ? 'image upload' : entries[index].file_img.name}</p>
+          <p class="bg-neutral-300  text-ec-purple cursor-pointer min-w-6/12 p-2 rounded-lg hover:bg-neutral-400 hover:text-ec-purple-800  ">{entries[index].file_img === null ? 'image upload' : entries[index].file_img.name}</p>
           </div>
         </label>
       </td>
       <td colspan="2" class="text-center">
         <label for={`file_sound${index}`} class="">
           <div class="flex justify-center items-center">
-            <p class="bg-neutral-300 text-ec-purple cursor-pointer min-w-6/12 p-2 rounded-lg hover:bg-neutral-400 text-ec-purple-800  ">{entries[index].audioSRC === null ? 'sound upload' : entries[index].file_sound.name}</p>
+            <p class="bg-neutral-300 text-ec-purple cursor-pointer min-w-6/12 p-2 rounded-lg hover:bg-neutral-400 hover:text-ec-purple-800  ">{entries[index].audioSRC === null ? 'sound upload' : entries[index].file_sound.name}</p>
             <input type="file" name="file_sound" id={`file_sound${index}`} on:change={(event) => handleFileChange(event, index)} hidden />
           </div>
         </label>

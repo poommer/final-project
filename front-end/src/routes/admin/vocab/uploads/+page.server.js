@@ -6,8 +6,8 @@ import axios from 'axios';
 export async function load({params}) {
     try{
         
-        let n = await axios.get('http://localhost:3000/api/word-list/read');
-        let pos = await axios.get('http://localhost:3000/api/pos/read/');
+        let n = await axios.get('https://api-ecproject.poommer.in.th/api/content/wordlist');
+        let pos = await axios.get('https://api-ecproject.poommer.in.th/api/content/pos/show');
 
     
         // console.log(n);

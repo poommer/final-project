@@ -13,11 +13,11 @@
 
 </style>
 <div class="w-full h-screen flex">
-  <nav class=" w-2/12">
+  <nav class=" w-2/12 fixed">
     <Nav/>
   </nav>
 
-  <main class="w-10/12 p-2">
+  <main class="w-10/12 p-4 ml-[16.666667%] overflow-hidden overflow-y-scroll">
     <slot />   
 
   </main>

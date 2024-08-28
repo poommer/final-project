@@ -60,6 +60,8 @@ onMount(() => {
 <div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
     
     <ChapterMenu/>
+    
+    <ChapterMenu/>
 
 </div>
 

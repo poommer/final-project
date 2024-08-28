@@ -37,13 +37,13 @@
                 {text_th:"กิน", text_en: "eat", img: "https://cdn-icons-png.flaticon.com/256/13466/13466736.png", status: false },
             ],
         sentence:[
-                {text_th:"สวัสดีแจ๊ค", text_en: "Hello Jack.", img: "", status: false },
-                {text_th:"เป็นอย่างไรบ้าง", text_en: "How are you?", img: "", status: false },
-                {text_th:"ก็ดี ขอบคุณมาก", text_en: "very well, thank you.", img: "", status: false },
-                {text_th:"เด็กผู้ชายคนหนึ่งกินแอปเปิล", text_en: "a boy eats an apple", img: "", status: false },
-                {text_th:"เธอเป็นเด็กผู้หญิง", text_en: "she is a girl.", img: "", status: false },
-                {text_th:"ฉันเป็นผู้ชายและเธอเป็นผู้หญิง", text_en: "I'm a boy and she is a girl", img: "", status: false },
-                {text_th:"เขาเป็นเด็กผู้ชายคนหนึ่ง", text_en: "he is a boy.", img: "", status: false },
+                {"text_th":"สวัสดีแจ๊ค", "text_en": "Hello Jack.", "img": "", status: false },
+                {"text_th":"เป็นอย่างไรบ้าง", "text_en": "How are you?", "img": "", status: false },
+                {"text_th":"ก็ดี ขอบคุณมาก", "text_en": "very well, thank you.", "img": "", status: false },
+                {"text_th":"เด็กผู้ชายคนหนึ่งกินแอปเปิล", "text_en": "a boy eats an apple", "img": "", status: false },
+                {"text_th":"เธอเป็นเด็กผู้หญิง", "text_en": "she is a girl.", "img": "", status: false },
+                {"text_th":"ฉันเป็นผู้ชายและเธอเป็นผู้หญิง", "text_en": "I'm a boy and she is a girl", "img": "", status: false },
+                {"text_th":"เขาเป็นเด็กผู้ชายคนหนึ่ง", "text_en": "he is a boy.", "img": "", status: false },
             ],
         conversation:{
             speaker_img: {
