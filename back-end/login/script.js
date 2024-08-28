@@ -6,7 +6,7 @@ const conn = require('../conn') // นำเข้าการเชื่อม
 
 const YOUR_CLIENT_ID = '48950314663-70khk95jdcj6tq31a0f4h1ss51keovbl.apps.googleusercontent.com'
 const YOUR_CLIENT_SECRET = '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'
-const YOUR_REDIRECT_URL = 'https://api-ecproject.poommer.in.th/api/login/auth/google/callback'
+const YOUR_REDIRECT_URL = 'https://api-ecproject.poommer.in.th/api/user/auth/google/callback'
 
 router.get('/auth/google', (req, res) => {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${YOUR_CLIENT_ID}&redirect_uri=${YOUR_REDIRECT_URL}&response_type=code&scope=profile email`;
@@ -28,7 +28,7 @@ router.get('/auth/google/callback', async (req, res) => {
 			headers: { Authorization: `Bearer ${access_token}` }
 		});
    // res.status(200).json(profile);
-       const { data: profileData } = await axios.get(`https://api-ecproject.poommer.in.th/api/login/auth/google/checkEmail?email=${profile.email}&id=${profile.id}`)
+       const { data: profileData } = await axios.get(`https://api-ecproject.poommer.in.th/api/user/auth/google/checkEmail?email=${profile.email}&id=${profile.id}`)
 
         try {
              // แปลงข้อมูลเป็น query string

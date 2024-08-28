@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const serveIndex = require('serve-index');
 
 const content = require('./content/script')
+const lessons = require('./lessons/script')
 
 const conn = require('./conn')
 
@@ -174,6 +175,7 @@ app.put("/auth/register", async (req, res) => {
 // ---------------------------------------------------------------------------
 
 app.use('/content', content);
+app.use('/lessons', lessons);
 
 
 
@@ -213,8 +215,6 @@ app.post("/api/admin/account/create", async (req, res) => {
         res.status(500).json(err.message);
     }
 });
-
-
 
 app.post("/api/admin/account/login", async (req, res) => {
     const { username, password } = req.body;
@@ -277,6 +277,8 @@ app.delete("/api/admin/account/del", async (req, res) => {
 
 
 
+
+
 app.get("/api/user/rank",  async (req, res) => {
     let sql = `WITH RankedUsers AS (SELECT coin_balance, xp, user_name, user_ID RANK() OVER (ORDER BY xp DESC) AS rank FROM user WHERE user_status = 'verified')
 SELECT * FROM RankedUsers WHERE rank <= 10 OR user_name = ? ORDER BY rank LIMIT 11;`
@@ -299,3 +301,20 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+
+app.get('/test/pagi', async (req, res) => {
+    const {page} = req.query
+
+    let ItemNum = 10
+    let dataLen = 58
+
+
+    let pagin =  Math.ceil(dataLen/ItemNum)
+
+    let firstItem = page === 1 ? 1 :  (page - 1) * ItemNum + 1 ;
+    let offset   =  ItemNum * page >= dataLen ? dataLen : ItemNum * page ;
+    // let offset   =  ItemNum * page >= dataLen ? dataLen : ItemNum * page ;
+
+    res.status(200).json({pagin, ItemNum, dataLen, firstItem, offset})
+})

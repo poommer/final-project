@@ -76,7 +76,7 @@
           formData.append('word_th', entries[ind].word_th);
           formData.append('pos', entries[ind].pos);
           formData.append('word_List', entries[ind].word_List);
-          formData.append('status_image	', parseInt(entries[ind].changeStatusImage));
+          formData.append('status_image', parseInt(entries[ind].changeStatusImage));
 
           try {
             let createData = await axios.post(`https://api-ecproject.poommer.in.th/api/content/vocab?wl=${entries[ind].word_List}&we=${entries[ind].word_en}`, formData, {

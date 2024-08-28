@@ -172,6 +172,21 @@ router.post("/vocab/", upload, async (req, res) => {
 router.get("/vocab/:wordlist", async (req, res) => {
     try{
         const {wordlist} = req.params
+
+        const page = parseInt(req.query.page) || 1;
+        const  [[{count}]]  = await conn.promise().query("SELECT COUNT(*) as count FROM `vocab` JOIN `wordlist` ON `vocab`.word_cate = `wordlist`.`wl_id` JOIN `partofspeech` ON `vocab`.pos = `partofspeech`.`pos_id`;")
+
+
+        let limit = 10
+    
+        // let count = 21
+    
+        let pagin =  Math.ceil(count/limit)
+    
+        let startIndex = page === 1 ? 1 :  (page - 1) * limit + 1 ;
+        let offset   =  limit * page >= count ? count : limit * page ;
+
+
         conn.execute(`SELECT * FROM vocab WHERE word_cate = ? `, [wordlist], (err, result) => {
             if(err){res.status(500).json({message:err.message})}
 
@@ -195,11 +210,22 @@ router.get("/vocab/:wordlist", async (req, res) => {
 
 router.get("/vocab/", async (req, res) => {
     try{
-        conn.execute("SELECT `vocab_ID`, `word_en`, `word_th`, `wl_name`, `pos_name` FROM `vocab` JOIN `wordlist` ON `vocab`.word_cate = `wordlist`.`wl_id` JOIN `partofspeech` ON `vocab`.pos = `partofspeech`.`pos_id`; ", (err, result) => {
-            if(err){res.status(500).json({message:err.message})}
-            // result.imageURL = result.map(value =>`https://api-ecproject.poommer.in.th/media/image/${value.vocab_ID.split('-')[0]}/${value.word_en}.webp`);
-            // result.soundURL = result.map(value =>`https://api-ecproject.poommer.in.th/media/sound/${value.vocab_ID.split('-')[0]}/${value.word_en}.webp`);
+        const page = parseInt(req.query.page) || 1;
+        const  [[{count}]]  = await conn.promise().query("SELECT COUNT(*) as count FROM `vocab` JOIN `wordlist` ON `vocab`.word_cate = `wordlist`.`wl_id` JOIN `partofspeech` ON `vocab`.pos = `partofspeech`.`pos_id`;")
 
+
+        let limit = 10
+    
+        // let count = 21
+    
+        let pagin =  Math.ceil(count/limit)
+    
+        let startIndex = page === 1 ? 1 :  (page - 1) * limit + 1 ;
+        let offset   =  limit * page >= count ? count : limit * page ;
+
+
+        conn.execute("SELECT `vocab_ID`, `word_en`, `word_th`, `wl_name`, `pos_name` FROM `vocab` JOIN `wordlist` ON `vocab`.word_cate = `wordlist`.`wl_id` JOIN `partofspeech` ON `vocab`.pos = `partofspeech`.`pos_id` LIMIT ?,?; ",[startIndex, offset], (err, result) => {
+            if(err){res.status(500).json({message:err.message})}
             const resultLest = result.map(item => {
                 return{
                     ...item,
@@ -208,13 +234,15 @@ router.get("/vocab/", async (req, res) => {
 
                 }
             })
-            
-            // result.imageURL = `http://localhost:3000/upload/url/image/${value.vocab_ID.split('-')[0]}/${value.word_en}.webp`
-            // result.soundURL = `http://localhost:3000/upload/url/sound/${result.vocab_ID.split('-')[1]}/${result.word_en}.wav`
-            res.status(200).json(resultLest)
+
+            // newList = {pesponse:{...resultLest}, pagin:pagin}
+
+            res.status(200).json({resultLest:resultLest,  pagination:pagin})
             
 
         })
+
+        // res.status(200).json({count, pagin, startIndex, offset})
     }catch(err){
         res.status(500).json({message:err.message})
     }
@@ -261,6 +289,12 @@ router.delete("/vocab/:vocabID", async (req, res) => {
 
 /* ---------------------------------------------------------------------------------- */
 
-router.
+router.post("/sentences", async (req, res) => {
+    
+})
+
+/* ---------------------------------------------------------------------------------- */
+
+// router.
 
 module.exports = router;

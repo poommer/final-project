@@ -45,13 +45,13 @@ app.use('/api/login/', login);
 
 const YOUR_CLIENT_ID = '48950314663-70khk95jdcj6tq31a0f4h1ss51keovbl.apps.googleusercontent.com'
 const YOUR_CLIENT_SECRET = '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'
-const YOUR_REDIRECT_URL = 'https://api-ecproject.poommer.in.th/api/auth/google/callback'
+const YOUR_REDIRECT_URL = 'https://api-ecproject.poommer.in.th/api/user/auth/google/callback'
 
-app.get('/api/auth/google', (req, res) => {
+router.get('/auth/google', (req, res) => {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${YOUR_CLIENT_ID}&redirect_uri=${YOUR_REDIRECT_URL}&response_type=code&scope=profile email`;
     res.redirect(url);
 });
-app.get('/api/auth/google/callback', async (req, res) => {
+router.get('/auth/google/callback', async (req, res) => {
     const { code } = req.query;
 	try {
 		const { data } = await axios.post('https://oauth2.googleapis.com/token', {
@@ -66,7 +66,7 @@ app.get('/api/auth/google/callback', async (req, res) => {
 			headers: { Authorization: `Bearer ${access_token}` }
 		});
    // res.status(200).json(profile);
-       const { data: profileData } = await axios.get(`https://api-ecproject.poommer.in.th/api/auth/google/checkEmail?email=${profile.email}&id=${profile.id}`)
+       const { data: profileData } = await axios.get(`https://api-ecproject.poommer.in.th/api/user/google/checkEmail?email=${profile.email}&id=${profile.id}`)
 
         try {
              // แปลงข้อมูลเป็น query string
@@ -93,7 +93,7 @@ app.get('/api/auth/google/callback', async (req, res) => {
 // ----------------------------------
 
 
-app.get('/api/auth/google/checkEmail', async (req, res) => {
+router.get('/auth/google/checkEmail', async (req, res) => {
     let email = req.query.email;
     let id = req.query.id;
     let SQL = 'SELECT user_ID, user_name, user_gender, user_birthday, user_email,  coin_balance, xp, user_rank, user_status FROM user WHERE user_email = ?'
@@ -151,7 +151,7 @@ app.get('/api/auth/google/checkEmail', async (req, res) => {
 )
 
 
-app.put('/api/auth/register', async (req, res) => {
+router.put('/auth/register', async (req, res) => {
     const { id, name, birthday, gender } = req.body
 
     try {
