@@ -35,7 +35,7 @@ let funcCheck = async () => {
 let register = async (ID) => {
     try{
         if(username !== undefined && gender !== undefined && birthday !== undefined){
-        let response = await axios.put(`${PUBLIC_BASE_API_URL}/auth/register`,
+        let response = await axios.put(`https://api-ecproject.poommer.in.th/api/auth/register`,
         {
             "id": ID,
             "name": username,

@@ -14,7 +14,7 @@
 
   let checkArray = async (arr) => {
     return arr.map(obj => {
-      const { imgTag, ...rest } = obj;
+      const { imgTag, file_img, TagStatusImage, ...rest } = obj;
       const values = Object.values(rest);
 
       const hasNull = values.includes(null);
