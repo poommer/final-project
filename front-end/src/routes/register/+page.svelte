@@ -34,6 +34,7 @@ let funcCheck = async () => {
 
 let register = async (userID) => {
     try{
+        
         console.log({
             "id": userID,
             "name": username,
@@ -60,6 +61,10 @@ let register = async (userID) => {
         }
         )
         if(enroll){
+            const dataU = await JSON.parse(localStorage.getItem('user'));
+            const newData = {...Item, user_status};
+            const status = 'verified'
+            localStorage.setItem('user',JSON.stringify({...Item, user_status:status}))
             goto('/')
         }
     }
@@ -70,6 +75,8 @@ let register = async (userID) => {
         
     }
 }
+
+console.log('userProps', userProps);
 
 
 
