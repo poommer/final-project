@@ -12,7 +12,7 @@
     </div>
 
     <div class=" relative text-ec-yellow text-[50px]">
-        <span>Animals #1</span>
+        <span>Animals #8</span>
     </div>
 
     <div class="flex flex-row text-[20px] justify-normal space-x-0">

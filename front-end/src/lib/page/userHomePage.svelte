@@ -10,6 +10,7 @@ import { PUBLIC_BASE_API_URL } from '$env/static/public'
 
 import { goto } from '$app/navigation';
   import Ranking from '../component/ranking.svelte';
+  import axios from 'axios';
 
 
 export let error ;
@@ -18,8 +19,17 @@ let userCheck ;
 let dataUser;
 let user_name;
 let user_email;
+let user_ID
 
-onMount(() => {
+let ChapMenu = [];
+
+let LoadChapMenu = async (id) => {
+    const load = await axios.get(`https://api-ecproject.poommer.in.th/api/lessons/chapterMenu?user_id=${id}`)
+    ChapMenu = load.data.response
+    
+}
+
+onMount(async() => {
     console.log('Hello');
     userCheck = localStorage.getItem('user')
     console.log(userCheck);
@@ -27,11 +37,19 @@ onMount(() => {
     if(userCheck){
         user_name = JSON.parse(userCheck).user_name
         user_email = JSON.parse(userCheck).user_email
+        const user_ID = JSON.parse(userCheck).user_ID
         if(JSON.parse(userCheck).user_status === "wait verify"){
         goto('../register')
-        sessionStorage.setItem('error', 'login, please.')
     }
-    }else{ 
+    // const load = await LoadChapMenu(user_ID)
+    // console.log(load);
+    
+    const load = await LoadChapMenu(user_ID);
+    ChapMenu = ChapMenu
+    console.log(ChapMenu);
+
+    }else{   
+        sessionStorage.setItem('error', 'login, please.')
         goto('/')
     }
 
@@ -52,16 +70,18 @@ onMount(() => {
             {#if error !== null}
         <p class="text-rose-400 text-xl">{error}</p>
     {/if}
-<!--            
-           <ChapterMenu/>   -->
-<!-- <div class="">
-    <ChapterMenu/>
-</div> -->
+
 <div class="ml-3  w-full overflow-scroll flex flex-col  items-center">
+
+        {#each ChapMenu as Item,index}
+        <!-- <p>{}</p> -->
+        <!-- {Item[index]} -->
+        <ChapterMenu  chapter_data={Item} />
+        {/each} 
+
     
-    <ChapterMenu/>
     
-    <ChapterMenu/>
+    
 
 </div>
 

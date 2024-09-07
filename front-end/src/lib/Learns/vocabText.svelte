@@ -1,6 +1,21 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
 export let wordTH ;
 export let wordEN ;
+export let sound_URL ;
+export let contentNext = false;
+
+const dispatch = createEventDispatcher();
+
+let playSound = (soundIndex) =>{
+    contentNext = true;
+    dispatch('updateBtn', { contentNext });
+    var sound = new Audio(soundIndex);
+    sound.play();
+    sound.addEventListener('canplaythrough', function() {
+        sound.play();
+    }, false);
+}
 </script>
 
 <div class="flex justify-center items-center p-10">
@@ -12,7 +27,7 @@ export let wordEN ;
             <span class=" text-[#FFC700] text-[30px]">{wordEN}</span>
              <span class="text-[24px]">{wordTH}</span>
             <div class={`w-full flex justify-end pr-4`}>
-                <button ><img src="icon/volume.png" alt="" class="w-5 h-5"></button>
+                <button on:click={()=>{playSound(sound_URL)}}><img src="/icon/volume.png" alt="" class="w-5 h-5"></button>
             </div>
             
         </div>

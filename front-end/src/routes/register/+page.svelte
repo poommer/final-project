@@ -3,8 +3,8 @@
     import { goto } from '$app/navigation';
     import { fail } from '@sveltejs/kit';
 
-    import { PUBLIC_BASE_API_URL } from '$env/static/public'
-  import { parse } from 'svelte/compiler';
+//     import { PUBLIC_BASE_API_URL } from '$env/static/public'
+//   import { parse } from 'svelte/compiler';
 
     
 
@@ -32,34 +32,43 @@ let funcCheck = async () => {
 
 
 
-let register = async (ID) => {
+let register = async () => {
     try{
+        console.log({
+            "id": userlocal.user_ID,
+            "name": username,
+            "birthday": birthday,
+            "gender":gender
+        });
         if(username !== undefined && gender !== undefined && birthday !== undefined){
-        let response = await axios.put(`https://api-ecproject.poommer.in.th/api/auth/register`,
+        let response = await axios.put(`https://api-ecproject.poommer.in.th/api/user/auth/register`,
         {
-            "id": ID,
+            "id": userlocal.user_ID,
             "name": username,
             "birthday": birthday,
             "gender":gender
         }
+        
     )
     
+    
     if(response.data.status === 200){
-        userProps.user_name = username;
-        userProps.user_status = 'verified';
-
-        localStorage.setItem('user', JSON.stringify(userProps))
-        goto('/')
+        const enroll = await axios.post('https://api-ecproject.poommer.in.th/api/lessons/enroll/',
+        {
+            lesson_ID:'1-1', 
+            user_ID:data.id
+        }
+        )
+        if(enroll){
+            goto('/')
+        }
     }
-    console.log(response.data); 
-
-}else{
-    errorUpdate = true
-}
-} catch(err) {
-    console.log(err.message);
 }
 
+}catch(err){
+        console.log(err);
+        
+    }
 }
 
 

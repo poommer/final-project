@@ -148,7 +148,7 @@
       </script>
   
   
-  <div class=" h-screen flex flex-col gap-4 justify-center items-center ">
+  <div class=" flex flex-col gap-4 justify-center items-center ">
   <small>{msg}</small>
   <div class="flex gap-3">
       {#each hitResult as item, i }

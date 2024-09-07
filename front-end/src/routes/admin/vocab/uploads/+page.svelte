@@ -197,7 +197,7 @@
     <button class="w-20 rounded bg-ec-purple text-white text-2xl" on:click={() => { changeRow(); [...entries] = entries }}>add</button>
   </div>
 </div>
-<table class="w-[100%] border-ec-purple-800 border-[2px] mt-4">
+<table class="w-[15px] border-ec-purple-800 border-[2px] mt-4">
   <thead>
     <tr class="bg-ec-purple-600 text-white text-center ">
       <th>word english</th>
