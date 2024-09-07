@@ -32,10 +32,10 @@ let funcCheck = async () => {
 
 
 
-let register = async () => {
+let register = async (userID) => {
     try{
         console.log({
-            "id": userlocal.user_ID,
+            "id": userID,
             "name": username,
             "birthday": birthday,
             "gender":gender
@@ -43,7 +43,7 @@ let register = async () => {
         if(username !== undefined && gender !== undefined && birthday !== undefined){
         let response = await axios.put(`https://api-ecproject.poommer.in.th/api/user/auth/register`,
         {
-            "id": userlocal.user_ID,
+            "id": userID,
             "name": username,
             "birthday": birthday,
             "gender":gender
@@ -56,7 +56,7 @@ let register = async () => {
         const enroll = await axios.post('https://api-ecproject.poommer.in.th/api/lessons/enroll/',
         {
             lesson_ID:'1-1', 
-            user_ID:data.id
+            user_ID:userID
         }
         )
         if(enroll){
