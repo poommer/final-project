@@ -1,23 +1,45 @@
 <script>
 
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
     import 'animate.css';
   
       /** @type {import('./$types').PageData} */
       // export let data;
+      export let config;
+      $:({maxAns, msg, nextStatus} = config);
+
+      export let maxAnsShow; 
   
       let changeStatus = false;
   
-      let MaxPaly = 2;
+    //   let maxAns = 2;
+
+    
+    export  let word ;
+    export let score;
+    export let status_send = false;
+    // export let cur_step;
+    export let image;
+    
+    //   export let msg;
+    
   
-      export  let word ;
-  
-      let msg = '';
-  
-      export let score;
-  
-  let result_check_ans = [];
-      let hitResult = [];
+    let result_check_ans = [];
+    let hitResult = [];
+    
+    //   if(nextStatus){
+        //     // gensolving();
+    //     console.log(config);
+    // }
+    
+    afterUpdate(async () => {
+        if(nextStatus === true){
+            hitResult = []
+            await gensolving();
+            nextStatus = false;
+        }
+})
+    
       let getUniqueRandomNumbers = (min, max, count) => {
     const numbers = [];
     while (numbers.length < count) {
@@ -45,6 +67,7 @@
   
           hitResult = hitResult
           console.log(hitResult);
+          console.log(nextStatus);
           
       }
   
@@ -75,25 +98,28 @@
   
   
   let checkAns = async () => {
-      if(MaxPaly > 0){
-          MaxPaly -= 1
+      if(maxAns > 0){
+          maxAns -= 1
           result_check_ans = hitResult.map((value, i) => ({
               isMatch: value.letter.toLowerCase() === word[i].toLowerCase(),
               type: value.type
           }));
           if(result_check_ans.some(item => !item.isMatch)){
-              if(MaxPaly === 1){  msg = 'ไม่เป็นไร ให้ลองอีกครั้ง'}else {  msg = 'ไว้ฝึกมาใหม่นะ' ;  score = await interpret_score(result_check_ans) ; console.log(score); }
+              if(maxAns === 1){msg = 'ไม่เป็นไร ให้ลองอีกครั้ง'}else {  msg = 'ไว้ฝึกมาใหม่นะ' ;  score = await interpret_score(result_check_ans) ; status_send = true; console.log(score); }
              
           }else{ 
               score = await interpret_score(result_check_ans)
+              status_send = true
               msg = 'good job!'; 
-              MaxPaly = false 
+              maxAns = false ;
               console.log(score);
           }
           return score
       }else{
-          MaxPaly = false
+          maxAns = false
       }
+
+      maxAnsShow = maxAns
       
       
   }
@@ -132,14 +158,21 @@
       
   
   }
+
+  const dispatch = createEventDispatcher();
+
+function handleClick() {
+  dispatch('cur_stepComponent');
+//   status_send = false
+}
     
   
-      onMount(async () => {
-          gensolving();
-          // console.log(interpret_score());
+    //   onMount(async () => {
+    //       gensolving();
+    //       // console.log(interpret_score());
   
           
-      })
+    //   })
   
   
       
@@ -150,6 +183,7 @@
   
   <div class=" flex flex-col gap-4 justify-center items-center ">
   <small>{msg}</small>
+  <img src={image} alt="" class="max-w-[7em] bg-white shadow-[5px_5px_0px_0px_#1c9aff] rounded-[.5rem]">
   <div class="flex gap-3">
       {#each hitResult as item, i }
           <p class={`w-14 h-14 flex justify-center items-center text-5xl rounded-md ${item.type === 'hit' ? 'bg-ec-purple-400 text-ec-purple-900' : 'bg-stone-100 text-ec-purple '} ${result_check_ans[i].isMatch === true && item.type === 'ans' ? 'animate__animated animate__heartBeat bg-green-300 text-green-700' : result_check_ans[i].isMatch === false && item.type === 'ans' ? 'animate__animated animate__tada bg-rose-300 text-rose-700' : 'bg-stone-100 text-ec-purple'}`}>{item.letter}</p>
@@ -194,7 +228,12 @@
           <button class={`bg-yellow-600 p-2 w-16 h-16 font-bold text-3xl rounded-lg flex justify-center items-center`} on:click={DelLetter}><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e8eaed"><path d="M360-200q-20 0-37.5-9T294-234L120-480l174-246q11-16 28.5-25t37.5-9h400q33 0 56.5 23.5T840-680v400q0 33-23.5 56.5T760-200H360Zm400-80v-400 400Zm-400 0h400v-400H360L218-480l142 200Zm96-40 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Z"/></svg></button>
       </div>
   </div>
-  <button on:click={async() => {await checkAns(); console.log(score);
-       }}>submit</button>
+  {#if maxAns > 0}
+  <div class={`flex gap-4`}>
+
+      <button on:click={handleClick} class={`btn border-2  border-[#d3d3d3] w-[15rem] shadow-[10px_10px_0px_0px_#d3d3d3] hover:shadow-[5px_5px_0px_0px_#d3d3d3]`}>skip</button>
+      <button on:click={async() => {await checkAns(); console.log(score);}} class={`btn bg-[#00d730] w-[15rem] shadow-[0px_10px_0px_0px_#00a725] hover:shadow-[0px_5px_0px_0px_#01891f] hover:bg-[#02df33] `}>submit</button>
+    </div>
+    {/if}
   </div>    
   <!-- <Keybord /> -->

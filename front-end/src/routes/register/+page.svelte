@@ -52,7 +52,10 @@ let register = async (userID) => {
         
     )
     
-    
+     console.log('data:',{
+            lesson_ID:'1-1', 
+            user_ID:userID
+        });
     if(response.data.status === 200){
         const enroll = await axios.post('https://api-ecproject.poommer.in.th/api/lessons/enroll/',
         {
@@ -60,6 +63,8 @@ let register = async (userID) => {
             user_ID:userID
         }
         )
+       
+        
         if(enroll){
             const dataU = await JSON.parse(localStorage.getItem('user'));
             const status = 'verified'

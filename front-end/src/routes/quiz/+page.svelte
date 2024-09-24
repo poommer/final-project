@@ -1,5 +1,6 @@
 <script>
-    import QuizMenu from '../../lib/component/quizMenu.svelte';
+  import QuizMenu from '../../lib/component/quizMenu.svelte';
+    
 	import Nav from './../../lib/component/nav.svelte';
 </script>
 
