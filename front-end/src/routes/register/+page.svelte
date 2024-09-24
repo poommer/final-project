@@ -63,7 +63,7 @@ let register = async (userID) => {
         if(enroll){
             const dataU = await JSON.parse(localStorage.getItem('user'));
             const status = 'verified'
-            localStorage.setItem('user',JSON.stringify({...dataU, user_status:status}))
+            localStorage.setItem('user',JSON.stringify({...dataU, user_name:username, user_status:status}))
             goto('/')
         }
     }

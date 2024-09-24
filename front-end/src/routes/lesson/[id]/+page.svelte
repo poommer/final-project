@@ -1,4 +1,8 @@
 <script>
+	import { goto } from '$app/navigation';
+    import 'animate.css';
+
+
 	import Conversation from './../../../lib/Learns/conversation.svelte';
 	import Echo_Word from './../../../lib/game/echo_Word.svelte';
 	import Word_Guessing from './../../../lib/game/word_Guessing.svelte';
@@ -27,18 +31,36 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     let cur_step = 0
 
     let configQuiz = {msg:undefined,ansCheck:null,maxAns:2};
+    let configQuiz_2 = {msg:'',maxAns:2, nextStatus:true};
 
     let score = 0;  // ประกาศตัวแปรสำหรับเก็บคะแนน
     let sumScore = 0;  // ประกาศตัวแปรสำหรับเก็บคะแนน
 
-    // const SumScore = (score) => {
-    //     score += event.detail.score;  // รับค่า score จาก event
-    //     console.log('Updated score:', score);
-    // };
+    let status_send;
+
+    let setNewVocab;
+    let setNewSentence;
+    let noCon = 2;
 
 
 
-    let load_lesson = () => {
+    let widthStatus = 0;
+    let progress = false;
+    
+    const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+
+
+    const load_lesson = () => {
+        // setNewVocab = 
+        shuffleArray(vocab);
+        // setNewSentence = 
+        shuffleArray(sentence);
         for(let i=1; i<=contentCount; i++){
         let randomType;
         let check_satatus = true;
@@ -88,75 +110,133 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     }
     }
 
-    let next_to = () => {
+    
+    let changeStatudBar = ()=>{
+        progress = false;
+        // ทำให้แอนิเมชันเล่นใหม่โดยการรีเซ็ตค่า `progress`
+        setTimeout(() => {
+            progress = true;
+        }, 0);
+
+        widthStatus += ((1/(contentCount+1))*100); 
+    }
+
+    function handlecur_stepComponent() {
+    console.log("Custom event received from child component.");
+    next_to()
+  }
+
+    const next_to = () => {
         sumScore += score
+        status_send = undefined
         if(cur_step === contentCount){
-            cur_step = true
+            cur_step = 999
+            changeStatudBar();
         }else{
-            console.log('before:', configQuiz);
             configQuiz = {msg:undefined,ansCheck:null,maxAns:2};
-            console.log('After:', configQuiz);
+            configQuiz_2 = {msg:'',maxAns:2, nextStatus:true}
+            changeStatudBar();
             cur_step+=1;
         }
         score = 0
     }
-    // console.log({VocabCount, sentenceCount, contentCount});
-    
-
-
     
     
     
 </script>
 
+<svelte:head>
+   <title>{`[ lesson ${data.lesson.response[0].lesson_ID} ] - ${data.lesson.response[0].lesson_title} | EC English Larning`}</title>
+</svelte:head>
+
 <div class="h-screen flex flex-col bg-neutral-600 justify-center items-center">
-    <h1 class="text-5xl">Welcome to lesson</h1>
-   
+    
     {#await load_lesson()}
-        ...loading
+    ...loading
     {:then loaded } 
-    <p class="p-4 bg-violet-600">{cur_step}</p>
-    <p class="p-4 bg-violet-600">core:{sumScore}</p>
+    <div class=" flex flex-col items-center gap-4">
+        status_send = {status_send} <br>
+        cur_step = {cur_step}
+        <h1 class="text-3xl">lesson {data.lesson.response[0].unit_No} level {data.lesson.response[0].lesson_level} - {data.lesson.response[0].lesson_title}</h1>
+        <div class="w-[40rem] h-4 ">
+             <div class="w-full h-full bg-gray-200 rounded-full overflow-hidden">
+                 <div class="w-2/12 h-full bg-ec-purple-600" class:animate={progress} style={`width:${widthStatus}%; --target-width:${widthStatus}%; --start-width:${widthStatus-((1/(randomContent.length+1))*100)}%;`}></div>
+             </div>
+        </div>
+    </div>
+    <!-- <p class="p-4 bg-violet-600">core:{sumScore}</p> -->
     
      <div class=" w-[50rem] h-[40rem] flex flex-col justify-center items-center">
-    {#if cur_step === true}
+         
+    {#if cur_step === 999}
         congratulation 👏
     
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'lesson_vocabImg'}
-        {randomContent[cur_step].name}
+        
         <VocabImg word={vocab[randomContent[cur_step].index].word_en} image_url={vocab[randomContent[cur_step].index].imageURL} sound_URL={vocab[randomContent[cur_step].index].soundURL}/>
     
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'lesson_vocabTxt'}
-        {randomContent[cur_step].name}
+        
         <VocabText wordEN={vocab[randomContent[cur_step].index].word_en} wordTH={vocab[randomContent[cur_step].index].word_th} sound_URL={vocab[randomContent[cur_step].index].soundURL} />
         
         {:else if cur_step < contentCount && randomContent[cur_step].name === 'lesson_sentence'}
-        {randomContent[cur_step].name}
+        
         <VocabText wordEN={sentence[randomContent[cur_step].index].sen_en} wordTH={sentence[randomContent[cur_step].index].sen_th} sound_URL={vocab[randomContent[cur_step].index].soundURL}/>
         
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'quiz_vocab'}
-        {randomContent[cur_step].name}
-        <Word_Guessing word={vocab[randomContent[cur_step].index].word_en} bind:score={score}/>
-    
+        
+        <Word_Guessing word={vocab[randomContent[cur_step].index].word_en} image={vocab[randomContent[cur_step].index].imageURL} config={configQuiz_2} bind:score={score} bind:status_send={status_send} on:cur_stepComponent={handlecur_stepComponent}/>
         
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'quiz_echoVocab'}
-        {randomContent[cur_step].name}
-        <Echo_Word word={vocab[randomContent[cur_step].index].word_en} soundFile={vocab[randomContent[cur_step].index].soundURL} configQuiz={configQuiz} bind:score={score} />
+        
+        <Echo_Word word={vocab[randomContent[cur_step].index].word_en} soundFile={vocab[randomContent[cur_step].index].soundURL} configQuiz={configQuiz} bind:score={score}  bind:status_send={status_send} on:cur_stepComponent={handlecur_stepComponent}/>
         
         
         
         {:else if cur_step < contentCount && randomContent[cur_step].name === 'quiz_sentence'}
-        {randomContent[cur_step].name}
-        <Echo_Word word={sentence[randomContent[cur_step].index].sen_en} soundFile={vocab[randomContent[cur_step].index].soundURL} configQuiz={configQuiz} bind:score={score} />
+        
+        <Echo_Word word={sentence[randomContent[cur_step].index].sen_en} soundFile={vocab[randomContent[cur_step].index].soundURL} configQuiz={configQuiz} bind:score={score}  bind:status_send={status_send} on:cur_stepComponent={handlecur_stepComponent}/>
         
         {:else if cur_step === contentCount}
-        conversation
+        <p>
+            conversation
+            (รอแก้ไข)
+        </p>
+            <!-- <Conversation data={conversation[0].conver_content} {noCon} on:updateNoCon={(event)=>{noCon = event.detail.noCon; console.log(noCon);}}  /> -->
         {/if}
 </div>
-    {/await}
 
-    <button class="btn bg-amber-300" on:click={next_to}>
-        Next
+{#if cur_step === 999}
+    <button class="btn bg-ec-green" on:click={()=>{goto('/')}}>
+        exit
     </button>
 
+    {:else if cur_step === contentCount || randomContent[cur_step].name === 'lesson_sentence' || randomContent[cur_step].name === 'lesson_vocabTxt' || randomContent[cur_step].name === 'lesson_vocabImg' }
+        <button class="btn bg-amber-300   shadow-[0px_10px_0px_0px_#d19100] text-ec-purple hover:shadow-[0px_5px_0px_0px_#fbbf24] hover:bg-amber-200" on:click={next_to}>
+            Next
+        </button>
+    {:else if status_send === true}
+    <div>
+        <button class="btn bg-ec-green" on:click={()=>{status_send = false; next_to()}}>
+            Next
+        </button>
+    </div>
+
+    
+    {/if}
+    {/await}
+
 </div>
+
+
+<style>
+    @keyframes progressAnimation {
+        from { width: var(--start-width); }
+        to { width: var(--target-width); }
+    }
+
+
+    .animate {
+        animation: progressAnimation .2s forwards;
+    }
+</style>
