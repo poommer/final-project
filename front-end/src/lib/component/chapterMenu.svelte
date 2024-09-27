@@ -47,7 +47,6 @@
     //     }
     // ];
 
-    console.log(chapter_data);
     onMount(async ()=>{
          chapter_data = chapter_data.map((item) => {
         let new_status
@@ -65,13 +64,11 @@
         
     })
     chapter_data = chapter_data
-     console.log('chapter_data',chapter_data);
     })
    
 
-    let gotoLesson = (lessonID) => {
-        console.log(lessonID);
-        goto(`/lesson/${lessonID}`)
+    let gotoLesson = (lessonID,status) => {
+        goto(`/lesson/${lessonID}?status=${status}`)
         
     }
    
@@ -93,11 +90,11 @@
             
             <div class={`w-[160px] border-b-[5px] border-dashed translate-x-[11rem] translate-y-[2.5rem] z-[-1] transform rotate-[60deg] ${chapter_data[1].lesHit_status === null ? 'border-gray-400'  : 'border-ec-yellow-400'}`}></div>
             
-            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[1].lesHit_status === true ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'} 
+            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[1].lesHit_status == 1 ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'} 
             ml-[16.25rem] mr-[3rem] mt-[5.75rem]  relative disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed`} 
-            disabled={chapter_data[1].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[1].lesson_ID)}}> 
-            
-            {#if  chapter_data[1].lesHit_status === true}
+            disabled={chapter_data[1].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[1].lesson_ID, chapter_data[1].lesHit_status)}}> 
+            <!-- {chapter_data[1].lesHit_status} -->
+            {#if  chapter_data[1].lesHit_status == 1}
             <img src="icon/book_check.png" alt="">
             {:else if chapter_data[1].lesHit_status === null}
             <img src="icon/book_close.png" alt="">
@@ -112,10 +109,10 @@
     
 
 
-            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[2].lesHit_status === true ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'}
+            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[2].lesHit_status == 1 ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'}
                  mt-[5rem] ml-[3rem] relative
-                disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed`} disabled={chapter_data[2].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[2].lesson_ID)}}> 
-                  {#if chapter_data[2].lesHit_status === true}
+                disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed`} disabled={chapter_data[2].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[2].lesson_ID, chapter_data[2].lesHit_status)}}> 
+                  {#if chapter_data[2].lesHit_status == 1}
                   <img src="icon/book_check.png" alt="">
                   {:else if chapter_data[2].lesHit_status === null}
                   <img src="icon/book_close.png" alt="">
@@ -128,11 +125,11 @@
     {#if chapter_data.length > 3 }
                 <div class={`w-[180px] border-b-[5px]  border-dashed relative translate-x-[7rem] translate-y-[3.5rem] transform rotate-[45deg] ${chapter_data[3].lesHit_status === null ? 'border-gray-400'  : 'border-ec-yellow-400'}`}></div>
       
-            <button class={`z-1  flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[3].lesHit_status === true ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'}
+            <button class={`z-1  flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[3].lesHit_status == 1 ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'}
             ml-[16.25rem] mr-[2rem] mt-[5.5rem]  relative
             disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed`}
-            disabled={chapter_data[3].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[3].lesson_ID)}}>
-            {#if chapter_data[3].lesHit_status === true}
+            disabled={chapter_data[3].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[3].lesson_ID, chapter_data[3].lesHit_status)}}>
+            {#if chapter_data[3].lesHit_status == 1}
             <img src="icon/book_check.png" alt="">
             {:else if chapter_data[3].lesHit_status === null}
             <img src="icon/book_close.png" alt="">
@@ -146,10 +143,10 @@
             {#if chapter_data.length > 4 }
             <div class={`w-[180px] border-b-[5px] border-ec-purple-400 border-dashed relative translate-x-[7.5rem] translate-y-[3rem] z-[-1]   transform rotate-[-40deg] ${chapter_data[3].lesHit_status === null ? 'border-gray-400'  : 'border-ec-yellow-400'}`}></div>
             
-            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[1].lesHit_status === true ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'} 
+            <button class={`z-1 flex justify-center items-center w-[100px] h-[100px] rounded-full active:translate-y-[5px] ${chapter_data[1].lesHit_status == 1 ? 'bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] active:shadow-[0px_5px_0_0_#A35DEF]' : 'bg-ec-light-yellow shadow-[0px_10px_0_0_#755805] active:shadow-[0px_5px_0_0_#755805]'} 
                  mt-[5rem] ml-[3rem] relative
-    disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed `} disabled={chapter_data[4].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[4].lesson_ID)}}> 
-            {#if chapter_data[4].lesHit_status === true}
+    disabled:bg-[#a5a5a5] disabled:shadow-[0px_10px_0_0_#9d9d9db0] disabled:active:translate-y-0 disabled:cursor-not-allowed `} disabled={chapter_data[4].lesHit_status === null} on:click={() => {gotoLesson(chapter_data[4].lesson_ID, chapter_data[4].lesHit_status)}}> 
+            {#if chapter_data[4].lesHit_status == 1}
             <img src="icon/book_check.png" alt="">
             {:else if chapter_data[4].lesHit_status === null}
             <img src="icon/book_close.png" alt="">

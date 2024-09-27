@@ -1,20 +1,27 @@
 <script>
-	import { goto } from '$app/navigation';
+    import { goto } from '$app/navigation';
     import 'animate.css';
-
-
-	import Conversation from './../../../lib/Learns/conversation.svelte';
+    
+    
+	// import Conversation from './../../../lib/Learns/conversation.svelte';
+	import Conver from './../../../lib/Learns/conver.svelte';
 	import Echo_Word from './../../../lib/game/echo_Word.svelte';
 	import Word_Guessing from './../../../lib/game/word_Guessing.svelte';
 	import VocabImg from '../../../lib/Learns/vocabImg.svelte';
 import VocabText from './../../../lib/Learns/vocabText.svelte';
+  import axios from 'axios';
     /** @type {import('./$types').PageData} */
     export let data;
     console.log(data);
 
+    const unit = data.lesson.response[0].unit_No;
+    const level = data.lesson.response[0].lesson_level
+
     let vocab = data.content.vocab
     let sentence = data.content.sentence
-    let conversation = data.content.conversation
+    let conversation = data.content.conversation[0].conver_content
+
+    
 
     let VocabImageCount = vocab.filter(val => val.status_image === 1).length;
     let VocabTextCount = vocab.length
@@ -36,11 +43,15 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     let score = 0;  // ประกาศตัวแปรสำหรับเก็บคะแนน
     let sumScore = 0;  // ประกาศตัวแปรสำหรับเก็บคะแนน
 
+    let xp = 0;
+
     let status_send;
 
     let setNewVocab;
     let setNewSentence;
     let noCon = 2;
+
+    let nowContent ;
 
 
 
@@ -128,6 +139,7 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
 
     const next_to = () => {
         sumScore += score
+        xp += 10
         status_send = undefined
         if(cur_step === contentCount){
             cur_step = 999
@@ -139,6 +151,51 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
             cur_step+=1;
         }
         score = 0
+    }
+
+    const check_out = async() => {
+        const local = localStorage.getItem('user')
+        const id = await JSON.parse(local).user_ID;
+
+        
+        
+
+console.log('before',{xp,sumScore});
+        
+        if(data.status == 0){
+            // const next_level
+            const next_unit = level == 4 ? parseInt(unit) + 1 : unit
+            const next_level = level == 4 ? 1 : parseInt(level) + 1
+            const next_lesson = `${next_unit}-${next_level}`
+            console.log(next_lesson);     
+            const enroll_lesson = await axios.post(`https://api-ecproject.poommer.in.th/api/lessons/enroll/`,{
+    lesson_ID:next_lesson, 
+    user_ID:id
+})       
+            const updateStatus_lesson = await axios.patch(`https://api-ecproject.poommer.in.th/api/lessons/enroll/`,{
+    lesson_ID:data.lesson.response[0].lesson_ID, 
+    user_ID:id
+})       
+        }else{
+            xp = Math.floor(xp /= 2)
+            sumScore = Math.floor(sumScore /= 2)
+        }
+        
+
+
+        const saveXP = await axios.post(`https://api-ecproject.poommer.in.th/api/user/${id}/xp/1/`,{
+            amount:xp, 
+            description:"earned from lesson"
+})
+const saveCoin = await axios.post(`https://api-ecproject.poommer.in.th/api/user/${id}/coin/1/`,{
+            amount:sumScore, 
+            description:"earned from lesson"
+        })
+cur_step = 999;
+
+
+console.log('after',{xp,sumScore});
+
     }
     
     
@@ -157,7 +214,7 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     <div class=" flex flex-col items-center gap-4">
         status_send = {status_send} <br>
         cur_step = {cur_step}
-        <h1 class="text-3xl">lesson {data.lesson.response[0].unit_No} level {data.lesson.response[0].lesson_level} - {data.lesson.response[0].lesson_title}</h1>
+        <h1 class="text-3xl">lesson {unit} level {level} - {data.lesson.response[0].lesson_title}</h1>
         <div class="w-[40rem] h-4 ">
              <div class="w-full h-full bg-gray-200 rounded-full overflow-hidden">
                  <div class="w-2/12 h-full bg-ec-purple-600" class:animate={progress} style={`width:${widthStatus}%; --target-width:${widthStatus}%; --start-width:${widthStatus-((1/(randomContent.length+1))*100)}%;`}></div>
@@ -170,6 +227,8 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
          
     {#if cur_step === 999}
         congratulation 👏
+        <br>score: {sumScore}
+        <br>xp: {xp}
     
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'lesson_vocabImg'}
         
@@ -181,7 +240,7 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
         
         {:else if cur_step < contentCount && randomContent[cur_step].name === 'lesson_sentence'}
         
-        <VocabText wordEN={sentence[randomContent[cur_step].index].sen_en} wordTH={sentence[randomContent[cur_step].index].sen_th} sound_URL={vocab[randomContent[cur_step].index].soundURL}/>
+        <VocabText wordEN={sentence[randomContent[cur_step].index].sen_en} wordTH={sentence[randomContent[cur_step].index].sen_th} sound_URL={sentence[randomContent[cur_step].index].sound_url}/>
         
     {:else if cur_step < contentCount && randomContent[cur_step].name === 'quiz_vocab'}
         
@@ -195,12 +254,12 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
         
         {:else if cur_step < contentCount && randomContent[cur_step].name === 'quiz_sentence'}
         
-        <Echo_Word word={sentence[randomContent[cur_step].index].sen_en} soundFile={vocab[randomContent[cur_step].index].soundURL} configQuiz={configQuiz} bind:score={score}  bind:status_send={status_send} on:cur_stepComponent={handlecur_stepComponent}/>
+        <Echo_Word word={sentence[randomContent[cur_step].index].sen_en} soundFile={sentence[randomContent[cur_step].index].sound_url} configQuiz={configQuiz} bind:score={score}  bind:status_send={status_send} on:cur_stepComponent={handlecur_stepComponent}/>
         
         {:else if cur_step === contentCount}
         <p>
-            conversation
-            (รอแก้ไข)
+            <Conver converData={conversation} bind:nowContent={nowContent} />
+            {nowContent}
         </p>
             <!-- <Conversation data={conversation[0].conver_content} {noCon} on:updateNoCon={(event)=>{noCon = event.detail.noCon; console.log(noCon);}}  /> -->
         {/if}
@@ -210,8 +269,13 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     <button class="btn bg-ec-green" on:click={()=>{goto('/')}}>
         exit
     </button>
-
-    {:else if cur_step === contentCount || randomContent[cur_step].name === 'lesson_sentence' || randomContent[cur_step].name === 'lesson_vocabTxt' || randomContent[cur_step].name === 'lesson_vocabImg' }
+    {:else if nowContent === conversation.data.length}
+        <div>
+            <button class="btn bg-ec-green" on:click={()=>{status_send = false; check_out()}}>
+                Next
+            </button>
+        </div>
+    {:else if cur_step < contentCount && (randomContent[cur_step].name === 'lesson_sentence' || randomContent[cur_step].name === 'lesson_vocabTxt' || randomContent[cur_step].name === 'lesson_vocabImg') }
         <button class="btn bg-amber-300   shadow-[0px_10px_0px_0px_#d19100] text-ec-purple hover:shadow-[0px_5px_0px_0px_#fbbf24] hover:bg-amber-200" on:click={next_to}>
             Next
         </button>
@@ -221,6 +285,7 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
             Next
         </button>
     </div>
+    
 
     
     {/if}

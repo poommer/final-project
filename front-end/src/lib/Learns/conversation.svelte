@@ -40,7 +40,7 @@
 
 <body class="flex flex-col justify-center items-center p-10">
     <div bind:this={mainContent} class="h-[30rem] w-[45rem] overflow-y-scroll" id="main-content">
-    {#each data.conversation.res as topic,index}
+    {#each data.data as topic,index}
 
     
 

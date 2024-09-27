@@ -1,6 +1,7 @@
 import axios from 'axios';
-export async function load({ params }) {
+export async function load({ params, url }) {
     const id = params.id;
+    const status = url.searchParams.get('status'); // ดึงค่า 'status' จาก URL
 
     const content = await axios.get(`https://api-ecproject.poommer.in.th/api/lessons/detail/${id}`);
     console.log(content.data);
@@ -10,5 +11,5 @@ export async function load({ params }) {
     console.log(lesson.data);
     
     
-    return {content:content.data, lesson:lesson.data};
+    return {content:content.data, lesson:lesson.data, status};
 };

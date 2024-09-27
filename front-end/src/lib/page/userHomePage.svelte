@@ -19,7 +19,9 @@ let userCheck ;
 let dataUser;
 let user_name;
 let user_email;
-let user_ID
+let user_ID;
+
+let ranking ;
 
 let ChapMenu = [];
 
@@ -29,24 +31,22 @@ let LoadChapMenu = async (id) => {
     
 }
 
-onMount(async() => {
-    console.log('Hello');
+let load_data = async() => {
     userCheck = localStorage.getItem('user')
-    console.log(userCheck);
 
     if(userCheck){
         user_name = JSON.parse(userCheck).user_name
         user_email = JSON.parse(userCheck).user_email
-        const user_ID = JSON.parse(userCheck).user_ID
+         user_ID = JSON.parse(userCheck).user_ID
         if(JSON.parse(userCheck).user_status === "wait verify"){
         goto('../register')
     }
-    // const load = await LoadChapMenu(user_ID)
-    // console.log(load);
     
     const load = await LoadChapMenu(user_ID);
     ChapMenu = ChapMenu
-    console.log(ChapMenu);
+    const response = await axios.get(`https://api-ecproject.poommer.in.th/api/user/rank?user_ID=${user_ID}`);
+    ranking = response.data;  // แก้ไขให้เก็บ response.data แทน response
+
 
     }else{   
         sessionStorage.setItem('error', 'login, please.')
@@ -54,12 +54,15 @@ onMount(async() => {
     }
 
 
-})
+}
 
 
 </script>
 
 
+{#await load_data()}
+    loading 2...
+{:then loaded} 
 <div class="w-full h-full flex">
     <nav class="w-[20%] bg-slate-50">
         <Nav  pageCurrent='home' />
@@ -90,12 +93,12 @@ onMount(async() => {
         </div>
 
         <div class="w-[30%] flex flex-col items-center">
-            <Ranking/>
+            <Ranking id={user_ID} ranking={ranking} />
         </div>
     </main>
     
   </div>
-
+{/await}
 
 
 
