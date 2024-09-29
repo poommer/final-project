@@ -276,7 +276,7 @@ cur_step = 999;
     {:else if nowContent === conversation.result.length}
         <div>
             <button class="btn bg-ec-green" on:click={()=>{status_send = false; check_out()}}>
-                Next
+                send
             </button>
         </div>
     {:else if cur_step < contentCount && (randomContent[cur_step].name === 'lesson_sentence' || randomContent[cur_step].name === 'lesson_vocabTxt' || randomContent[cur_step].name === 'lesson_vocabImg') }
