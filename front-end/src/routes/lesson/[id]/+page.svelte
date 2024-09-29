@@ -273,7 +273,7 @@ cur_step = 999;
     <button class="btn bg-ec-green" on:click={()=>{goto('/')}}>
         exit
     </button>
-    {:else if nowContent === conversation.result.length}
+    {:else if nowContent == conversation.result.length}
         <div>
             <button class="btn bg-ec-green" on:click={()=>{status_send = false; check_out()}}>
                 send
