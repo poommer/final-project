@@ -161,7 +161,7 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
         console.log(data.status);
         
         
-        if(data.status == 0){
+        if(data.status == false){
             // const next_level
             const next_unit = level == 4 ? parseInt(unit) + 1 : unit
             const next_level = level == 4 ? 1 : parseInt(level) + 1
