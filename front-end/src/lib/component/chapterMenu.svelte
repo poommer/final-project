@@ -4,48 +4,7 @@
 	import { onMount } from 'svelte';
     // export let id ;
     export let chapter_data 
-    // = [
-    //     {
-    //         lesson_ID: "1-0",
-    //         lesson_title: "you and me",
-    //         "lesson_description": "เรียนรู้คำศัพท์และประโยคพื้นฐานสำหรับการทักทาย แนะนำตัว และการสนทนาง่ายๆ ในชีวิตประจำวัน",
-    //         "unit_No": "1",
-    //         "lesson_level": "0",
-    //         "lesHit_status": null
-    //     },
-    //     {
-    //         "lesson_ID": "1-1",
-    //         "lesson_title": "Hello my frind",
-    //         "lesson_description": "เรียนรู้การทักทาย คำศัพท์ง่ายๆ และการสนทนาพื้นฐานเพื่อฝึกการแนะนำตัวและถามสารทุกข์สุกดิบ",
-    //         "unit_No": "1",
-    //         "lesson_level": "1",
-    //         "lesHit_status": "1"
-    //     },
-    //     {
-    //         "lesson_ID": "1-2",
-    //         "lesson_title": "Greeting on time",
-    //         "lesson_description": "เรียนรู้คำศัพท์เกี่ยวกับการทักทายตามช่วงเวลา พร้อมตัวอย่างประโยคและการสนทนาพื้นฐานในชีวิตประจำวัน.",
-    //         "unit_No": "1",
-    //         "lesson_level": "2",
-    //         "lesHit_status": "1"
-    //     },
-    //     {
-    //         "lesson_ID": "1-3",
-    //         "lesson_title": "Nice to Meet You",
-    //         "lesson_description": "ด้เรียนรู้การแนะนำตัวและแลกเปลี่ยนความสุภาพ รวมถึงการถามและตอบเกี่ยวกับชื่อของกันและกัน",
-    //         "unit_No": "1",
-    //         "lesson_level": "3",
-    //         "lesHit_status": null
-    //     },
-    //     {
-    //         "lesson_ID": "1-4",
-    //         "lesson_title": "Quiz 1",
-    //         "lesson_description": "Quiz 1",
-    //         "unit_No": "1",
-    //         "lesson_level": "4",
-    //         "lesHit_status": null
-    //     }
-    // ];
+
 
     onMount(async ()=>{
          chapter_data = chapter_data.map((item) => {
@@ -71,6 +30,13 @@
         goto(`/lesson/${lessonID}?status=${status}`)
         
     }
+
+    let show_status = false
+
+    let show_discription = (id) => {
+        console.log(id);
+        show_status = id
+    }
    
     
     </script>
@@ -80,9 +46,26 @@
         <div class=" flex flex-col justify-center items-center z-[99] relative">
                 <p class="relative text-[35px]">{chapter_data[0].lesson_title}</p>
                 <button class=" w-[140px] h-[140px] rounded-full bg-ec-purple-800 shadow-[0px_10px_0_0_#A35DEF] 
-               active:shadow-[0px_5px_0_0_#A35DEF] active:translate-y-[5px]  relative" >
-                   <span class=" text-white text-[80px]">1</span>
+               active:shadow-[0px_5px_0_0_#A35DEF] active:translate-y-[5px]  relative" on:click={()=>{show_status = !show_status}}>
+                   <span class=" text-white text-[80px]">{chapter_data[0].unit_No}</span>
                </button>
+
+               {#if show_status}
+               <div class={`relative `}>
+                <div class="absolute p-2 top-[-9rem] left-[6rem] bg-[#434d6197] w-[22rem] h-[10rem] rounded-xl">
+                   <div class="flex justify-between items-center">
+                       <span class="text-3xl">คำอธิบาย</span> 
+                    <button class=" bg-rose-600 w-8 p-1 rounded-md" on:click={()=>{show_status = false}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                    </button>
+                   </div>
+                    <p class="text-xl overflow-x-auto mt-2 w-[21rem] h-[6.5rem]">
+                        {chapter_data[0].lesson_description}
+                    </p>
+                </div>
+               </div>
+               {/if}
+               
             </div>
     
             

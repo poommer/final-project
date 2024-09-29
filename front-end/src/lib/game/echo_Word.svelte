@@ -161,9 +161,6 @@ function handleClick() {
   </script>
   
   
-  <!-- <div class={` w-[20rem] flex justify-center items-center p-2 rounded-xl ${ansCheck === true ? 'bg-green-500' : ansCheck === false ? 'bg-rose-500' : 'bg-ec-dark-blue-4' }`}>
-      <p class="text-7xl">{msg}</p>
-  </div> -->
 
 <div class="flex justify-center items-center p-10">
     <div class="flex items-end">
@@ -207,42 +204,3 @@ function handleClick() {
     </div>
 </div>
   
-  <!-- <div class="flex flex-col justify-center items-center gap-2  w-full">
-      
-      
-      
-      
-              <div class="flex justify-center items-center gap-4 ">
-
-
-                  <img src="../mascot.png" alt="" class="w-[20rem]">
-
-                  <div class="h-full flex  flex-col justify-between items-center gap-6">
-
-                      <div class={` min-w-[20rem] h-[7rem] relative rounded-[5px] flex flex-col items-center justify-center before:contents-[''] before:absolute before:border-solid before:border-x-[1.5rem] before:border-x-red-600 before:border-x-transparent before:border-t-transparent before:border-y-[1.5rem] before:border-[#374e8a] before:rounded-[10px] before:bottom-0 before:left-[-20px] ${ansCheck === true ? 'bg-green-500 before:border-green-500' : ansCheck === false ? 'bg-rose-500 before:border-rose-500' : 'bg-ec-dark-blue-4 before:border-ec-dark-blue-4' }`}>
-                          <span class={`text-5xl ${ansCheck === null ? 'text-ec-yellow' : 'text-white'  }`}>{word}</span>
-                          <div class={`w-full flex justify-end pr-4`}>
-                              <button on:click={() => {playSound(soundFile)}}><img src="../icon/volume.png" alt="" class="w-5 h-5"></button>
-                            </div>
-                            
-                        </div>
-
-                        <div class=" mb-12 w-full h-full flex justify-center items-center">
-
-          {#if ansCheck === null || (ansCheck === false && maxAns > 0) }    
-          <button class={`w-[4rem] h-[4rem] ${micStatus === true ? 'bg-green-500' : 'bg-ec-purple-600'} rounded-full flex justify-center items-center`} on:click={clickToSpeck}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="64px" viewBox="0 -960 960 960" width="64px" fill="#e8eaed"><path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/></svg>
-            </button>
-            {/if}
-        </div>
-                    </div>
-              </div>
-
-              <div class="ml-7">
-                
-              </div>
-      
-      
-      
-      
-    </div> -->
