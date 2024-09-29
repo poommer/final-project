@@ -10,17 +10,19 @@
 	import VocabImg from '../../../lib/Learns/vocabImg.svelte';
 import VocabText from './../../../lib/Learns/vocabText.svelte';
   import axios from 'axios';
+  import { onMount } from 'svelte';
     /** @type {import('./$types').PageData} */
     export let data;
-    console.log(data);
 
     const unit = data.lesson.response[0].unit_No;
     const level = data.lesson.response[0].lesson_level
 
     let vocab = data.content.vocab
     let sentence = data.content.sentence
-    let conversation = data.content.conversation[0].conver_content
+    let conversation = data.content.conversation
 
+    console.log(conversation);
+    
     
 
     let VocabImageCount = vocab.filter(val => val.status_image === 1).length;
@@ -133,7 +135,6 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     }
 
     function handlecur_stepComponent() {
-    console.log("Custom event received from child component.");
     next_to()
   }
 
@@ -156,11 +157,6 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     const check_out = async() => {
         const local = localStorage.getItem('user')
         const id = await JSON.parse(local).user_ID;
-
-        
-        
-
-console.log('before',{xp,sumScore});
         
         if(data.status == 0){
             // const next_level
@@ -191,13 +187,21 @@ const saveCoin = await axios.post(`https://api-ecproject.poommer.in.th/api/user/
             amount:sumScore, 
             description:"earned from lesson"
         })
+        changeStatudBar();
 cur_step = 999;
 
 
-console.log('after',{xp,sumScore});
-
     }
     
+    onMount(async()=>{
+        
+    if(!localStorage.getItem('user')){
+
+        sessionStorage.setItem('error', 'login, please.')
+        goto('/')
+    }
+
+    })
     
     
 </script>
@@ -269,7 +273,7 @@ console.log('after',{xp,sumScore});
     <button class="btn bg-ec-green" on:click={()=>{goto('/')}}>
         exit
     </button>
-    {:else if nowContent === conversation.data.length}
+    {:else if nowContent === conversation.result.length}
         <div>
             <button class="btn bg-ec-green" on:click={()=>{status_send = false; check_out()}}>
                 Next
