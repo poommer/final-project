@@ -157,6 +157,9 @@ import VocabText from './../../../lib/Learns/vocabText.svelte';
     const check_out = async() => {
         const local = localStorage.getItem('user')
         const id = await JSON.parse(local).user_ID;
+
+        console.log(data.status);
+        
         
         if(data.status == 0){
             // const next_level
