@@ -3,12 +3,15 @@
 @tailwind utilities;
 
 
+
 @layer base {
+  @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css');
     @font-face {
         font-family: 'PK-Loei-Medium';
         src: url('/PK-Loei-Medium.ttf') 
         format('truetype') /* ไฟล์ฟอนต์ในรูปแบบ woff2 */
       }
+
 
       body{
         font-family: 'PK-Loei-Medium';
@@ -18,4 +21,32 @@
       .btn {
         @apply  w-[20rem] h-14 rounded-lg flex items-center justify-center cursor-pointer active:translate-y-[5px] hover:translate-y-[5px]
       }
+
+      .lesson-currant::before {
+        @apply content-[var(--lesson-content)] text-ec-yellow  w-[5em] h-full absolute left-0
+      }
   }
+
+  @keyframes progressAnimation {
+    from { width: var(--start-width); }
+    to { width: var(--target-width); }
+}
+
+
+.animate-progressAnimation {
+    animation: progressAnimation .2s forwards;
+}
+
+/* .lesson-currant::before {
+  content: ;
+  color: #ffc700;
+  background-color: #f00;
+  width: 50rem;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */

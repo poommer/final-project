@@ -2,6 +2,7 @@
     import axios from 'axios';
     import { goto } from '$app/navigation';
     import { fail } from '@sveltejs/kit';
+  import Msg from '../../lib/component/msg.svelte';
 
 //     import { PUBLIC_BASE_API_URL } from '$env/static/public'
 //   import { parse } from 'svelte/compiler';
@@ -72,6 +73,8 @@ let register = async (userID) => {
             goto('/')
         }
     }
+}else{
+    errorUpdate = true
 }
 
 }catch(err){
@@ -106,7 +109,8 @@ let keyupUpdate = async () =>{
     <div>
     <h1>welcome to register page ID: {userlocal.user_ID}</h1>
 {#if errorUpdate}
-    <p class="text-ec-light-yello">error, Fill in all fields.</p>
+<Msg status={false} text={'error, Fill in all fields.'} />
+    <p class="text-ec-light-yellow">error, Fill in all fields.</p>
 {/if}
     <div>
         <div>  

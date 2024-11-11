@@ -7,6 +7,7 @@ const fs = require('fs');
 const router = express.Router();
 const conn = require('../conn') // นำเข้าการเชื่อมต่อจากไฟล์ server.js
 
+// document.getElementById()
 
 router.get("/wordlist/", async (req, res) => {
     try {

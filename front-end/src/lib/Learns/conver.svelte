@@ -12,6 +12,7 @@ let mainContent;
 export let nowContent = 0
 
 let next_conver = async () => {
+    
 if (nowContent < converData.result.length){
         nowContent+=1
     }
@@ -23,9 +24,17 @@ afterUpdate(() => {
                top: mainContent.scrollHeight,
                behavior: 'smooth'
            });
-           nowContent === converData.result.length || nowContent === undefined || nowContent === true ?  '' : 'playSound(noCon)';
+           nowContent === undefined || nowContent === true || nowContent == 0 ?  '' : playSound(nowContent-1);
        }
    });
+
+   let playSound = (soundIndex) =>{
+    var sound = new Audio(converData.result[soundIndex].url_sound);
+    sound.play();
+    sound.addEventListener('canplaythrough', function() {
+        sound.play();
+    }, false);
+}
 </script>
 
 <div class="flex flex-col gap-4 justify-center items-center">
@@ -53,7 +62,7 @@ afterUpdate(() => {
                                 <p class="text-[24px]">{topic.text_th}</p>
                            </div>
                             <div class={`w-full flex justify-end pr-4`}>
-                                <button on:click={()=>{playSound(sound_URL)}}><img src="/icon/volume.png" alt="" class="w-5 h-5"></button>
+                                <button on:click={()=>{playSound(index)}}><img src="/icon/volume.png" alt="" class="w-5 h-5"></button>
                             </div>
                             
                         </div>

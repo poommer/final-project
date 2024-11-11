@@ -7,18 +7,20 @@
       
 
 export let configQuiz;
-  $:({ msg, ansCheck, maxAns } = configQuiz);
+  $:({ msg, ansCheck, maxAns, timeLeft } = configQuiz);
  console.log('component',{msg, ansCheck});  
  console.log('component',configQuiz);  
 export let score ;
 export let status_send  = false ;
 
-let timeLeft = 10;
+
 let micStatus = false ;
 let result = [];
   
   let recognition;
   let intervalId;
+  let timeoutId;   
+
   onMount(() => {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   
@@ -38,6 +40,14 @@ let result = [];
   const dispatch = createEventDispatcher();
 
 function handleClick() {
+    // ansCheck = false
+    micStatus = false
+    recognition.stop();
+    clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อหมดเวลา
+    clearInterval(timeoutId);
+    // micStatus = false
+    // timeLeft = 10
+    // maxAns = 2
   dispatch('cur_stepComponent');
 //   status_send = false
 
@@ -49,70 +59,95 @@ function handleClick() {
  
 
   let clickToSpeck = () => {
+    micStatus = !micStatus
     console.log('Before', configQuiz);
     
-      console.log("SpeechRecognition initialized");
-      micStatus = true
-      recognition.start();  // เริ่มการตรวจจับครั้งแรก
-      console.log("Speech recognition started");
-  
-      // ตัวจับเวลาที่จะนับถอยหลังทุกวินาที
-      intervalId = setInterval(() => {
-          timeLeft--;
-          console.log(`Time left: ${timeLeft} seconds`);
-  
-          // ถ้าหมดเวลาให้หยุดการทำงาน
-          if (timeLeft === 0) {
-              ansCheck = false
-              recognition.stop();
-              clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อหมดเวลา
-              micStatus = false
-  
-          }
-      }, 1000); // อัปเดตทุก 1 วินาที
-  
-      // ตั้งค่าให้หยุดการทำงานหลังจาก 10 วินาที
-      setTimeout(() => {
-          if (!ansCheck || ansCheck === null) { // ถ้าคำตอบไม่ถูกต้องภายใน 10 วินาที
-              recognition.stop();
-              clearInterval(intervalId);
-              maxAns-=1
-              if(maxAns > 0){
-                  msg = 'ไม่เป็นไรลองใหม่อีกรอบ'
-                  timeLeft = 10
-                  ansCheck = false
-  
-              } else{
-                  msg = 'โอ้ ฝึกฝนทุกวัน จะเก่งขึ้นเอง'
-                  ansCheck = false
-                  score = 0
-                  status_send = true
-              }
-              console.log(maxAns);
-              
-          }
-      }, timeLeft * 1000);
-  
-      recognition.addEventListener('result', (event) => {
-          const arr_result = Array.from(event.results)
-              .map(result => result[0])
-              .map(result => result.transcript);
-          const result = arr_result[arr_result.length - 1].replace(/\./g, "").toLowerCase();
-  
-          console.log('Result:', result);
-  
-          // ตรวจสอบว่าคำตอบถูกต้องหรือไม่
-          if (result === word.toLowerCase()) {
-              console.log('Correct!');
-              ansCheck = true;
-              recognition.stop();
-              clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อคำตอบถูกต้อง
-              score = scoreRender(timeLeft)
-              status_send = true
-             msg = 'good job👏'
-             micStatus = false
-          }
-      });
+    if(micStatus){
+        msg = 'กำลังฟังเสียงอยู่'
+        console.log("SpeechRecognition initialized");
+        recognition.start();  // เริ่มการตรวจจับครั้งแรก
+        console.log("Speech recognition started");
+    
+        // ตัวจับเวลาที่จะนับถอยหลังทุกวินาที
+        intervalId = setInterval(() => {
+            timeLeft--;
+            console.log(`Time left: ${timeLeft} seconds`);
+    
+            // ถ้าหมดเวลาให้หยุดการทำงาน
+            if (timeLeft === 0) {
+                ansCheck = false
+                recognition.stop();
+                clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อหมดเวลา
+              //   clearInterval(timeoutId); // หยุดตัวจับเวลาเมื่อหมดเวลา
+                micStatus = false
+    
+            }
+        }, 1000); // อัปเดตทุก 1 วินาที
+    
+        // ตั้งค่าให้หยุดการทำงานหลังจาก 10 วินาที
+        timeoutId = setTimeout(() => {
+            if (!ansCheck || ansCheck === null) { // ถ้าคำตอบไม่ถูกต้องภายใน 10 วินาที
+                recognition.stop();
+              //   clearInterval(intervalId);
+              clearInterval(intervalId)
+            clearInterval(timeoutId);
+                maxAns-=1
+                if(maxAns > 0){
+                    msg = 'ไม่เป็นไรลองใหม่อีกรอบ'
+                    timeLeft = 10
+                    ansCheck = false
+    
+                } else{
+                    msg = 'โอ้ ฝึกฝนทุกวัน จะเก่งขึ้นเอง'
+                    ansCheck = false
+                    score = 0
+                    status_send = true
+                }
+                console.log(maxAns);
+                
+            }
+            
+        }, timeLeft * 1000);
+    
+        recognition.addEventListener('result', (event) => {
+            const arr_result = Array.from(event.results)
+                .map(result => result[0])
+                .map(result => result.transcript);
+            const result = arr_result[arr_result.length - 1].replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
+    
+            console.log('Result:', result);
+    
+            // ตรวจสอบว่าคำตอบถูกต้องหรือไม่
+            if (result === word.replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase()) {
+                console.log('Correct!');
+                ansCheck = true;
+                recognition.stop();
+                clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อคำตอบถูกต้อง
+                clearInterval(timeoutId);
+                score = scoreRender(timeLeft)
+                status_send = true
+               msg = 'good job👏'
+               micStatus = false
+            }
+        });
+    }else{
+        msg = ''
+        recognition.stop();
+        clearInterval(intervalId); // หยุดตัวจับเวลาเมื่อคำตอบถูกต้อง
+        clearInterval(timeoutId);
+        maxAns-=1
+                if(maxAns > 0){
+                    msg = 'ไม่เป็นไรลองใหม่อีกรอบ'
+                    timeLeft = 10
+                    ansCheck = false
+    
+                } else{
+                    msg = 'โอ้ ฝึกฝนทุกวัน จะเก่งขึ้นเอง'
+                    ansCheck = false
+                    score = 0
+                    status_send = true
+                }
+    }
 
       console.log('After', configQuiz);
       

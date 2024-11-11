@@ -1,10 +1,10 @@
 <script>
+  import { onMount } from "svelte";
     import "../app.css";
 
     // let user = localStorage.getItem('user')
     // console.log(user);
   </script>
-
 
    <slot />   
 

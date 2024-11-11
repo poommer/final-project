@@ -12,6 +12,10 @@ const serveIndex = require('serve-index');
 
 const content = require('./content/script')
 const lessons = require('./lessons/script')
+const reward = require('./reward/script')
+const user = require('./user/script')
+const quiz = require('./quiz/script')
+const mission = require('./mission/script')
 
 const conn = require('./conn')
 
@@ -176,6 +180,10 @@ app.put("/auth/register", async (req, res) => {
 
 app.use('/content', content);
 app.use('/lessons', lessons);
+app.use('/reward', reward);
+app.use('/user', user);
+app.use('/quiz', quiz);
+app.use('/mission', mission);
 
 
 
@@ -279,18 +287,39 @@ app.delete("/api/admin/account/del", async (req, res) => {
 
 
 
-app.get("/api/user/rank",  async (req, res) => {
-    let sql = `WITH RankedUsers AS (SELECT coin_balance, xp, user_name, user_ID RANK() OVER (ORDER BY xp DESC) AS rank FROM user WHERE user_status = 'verified')
-SELECT * FROM RankedUsers WHERE rank <= 10 OR user_name = ? ORDER BY rank LIMIT 11;`
+app.get("/rank", async (req, res) => {
+    const user_name = req.query.user_name;  // ใช้ query string เพื่อดึงชื่อผู้ใช้
+    
+    let sql = `WITH RankedUsers AS (
+                    SELECT 
+                        coin_balance, 
+                        xp, 
+                        user_name, 
+                        user_ID, 
+                        RANK() OVER (ORDER BY xp DESC) AS rank 
+                    FROM user 
+                    WHERE user_status = 'verified'
+                )
+                SELECT * 
+                FROM RankedUsers 
+                WHERE rank <= 10 OR user_name = ? 
+                ORDER BY rank;`;
 
-    conn.query(sql,[],(err,result)=>{
-        if(err){
-            res.status(500).json(err.message)
+    conn.query(sql, [user_name], (err, result) => {
+        if (err) {
+            return res.status(500).json({error: err.message});
         }
 
-        res.status(200).json(result)
-    })
-})
+        // แยกข้อมูลระหว่างผู้ใช้เอง (userRank) กับ อันดับที่เหลือ (topRanks)
+        let userRank = result.find(item => item.user_name === user_name);
+        let topRanks = result.filter(item => item.user_name !== user_name).slice(0, 10);
+
+        res.status(200).json({
+            userRank: userRank,
+            topRanks: topRanks
+        });
+    });
+});
 
 
 // -----------------------------------------------------------------------------

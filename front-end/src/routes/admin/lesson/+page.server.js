@@ -34,6 +34,7 @@ export async function load({ params }) {
       } 
       if(item.lesson_level === '0'){
           lessonData[cur_index].heading = {
+            id:item.lesson_ID,
             name:item.lesson_title,
             description:item.lesson_description
           };
