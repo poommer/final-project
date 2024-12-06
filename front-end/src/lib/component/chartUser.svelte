@@ -6,10 +6,15 @@
     let chartCanvas;
   
     export let result;
+ let userID
+    onMount(()=>{
+      userID =  JSON.parse(localStorage.getItem('user')).user_ID
+      console.log('chartUser', userID);
+    })
 
     async function fetchData() {
     // ตัวอย่างการดึงข้อมูลจาก API (แทนที่ด้วย API ของคุณ)
-    const response = await fetch(`http://localhost:3000/user/111520423022737516816/statistic`);
+    const response = await fetch(`https://api-ecproject.poommer.in.th/api/user/${userID}/statistic`);
     const data = await response.json();
 
     // อัปเดตค่าข้อมูลที่ใช้ในกราฟ
