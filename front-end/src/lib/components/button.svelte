@@ -16,12 +16,15 @@
 
     export let options = {bg:'primary', style:'style1', }
     export let click ;
+
+    export let SetHeight = false ;
+
 </script>
 
 <button
 on:click={click}
 disabled={options.bg === 'disable'}
-class={`w-full ${typeBtn === 'A1' ? 'rounded-full' : 'rounded-lg'} text-2xl ${options.style === 'style1' && options.bg != 'disable' ? 'active:translate-y-[3px]' : ''} transition-all ${options.bg === 'disable' ? 'cursor-not-allowed' : ''}`}
+class={`w-full ${SetHeight === true ? 'h-full' : ''} ${typeBtn === 'A1' ? 'rounded-full' : 'rounded-lg'} text-2xl ${options.style === 'style1' && options.bg != 'disable' ? 'active:translate-y-[3px]' : ''} transition-all ${options.bg === 'disable' ? 'cursor-not-allowed' : ''}`}
 style={`
 --bg :${bg[options.bg].bg} ; 
 --shadow: ${style[options.style].main} ${bg[options.bg].shadow}; 
