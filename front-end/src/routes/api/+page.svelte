@@ -8,7 +8,7 @@
             if (data.status === 200 && data.user.user_status === 'verified') {
                 goto('/');
             } else {
-                goto('/register/');
+                goto('/user/register/');
             }
     });
 </script>

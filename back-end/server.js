@@ -34,20 +34,16 @@ const upload_folder = path.join(__dirname, 'uploads');
 // เสิร์ฟไฟล์แบบ static จากโฟลเดอร์ uploads
 app.use('/upload/url', express.static(upload_folder), serveIndex(upload_folder, { 'icons': true }));
 
-
-
-
 const YOUR_CLIENT_ID =
     "48950314663-6bmeog4bo4p8ke8p35q28kpv1irer6tm.apps.googleusercontent.com";
 const YOUR_CLIENT_SECRET = "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";
 const YOUR_REDIRECT_URL = "http://localhost:3000/auth/google/callback";
 
-
-
 app.get("/auth/google", (req, res) => {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${YOUR_CLIENT_ID}&redirect_uri=${YOUR_REDIRECT_URL}&response_type=code&scope=profile email`;
     res.redirect(url);
 });
+
 app.get("/auth/google/callback", async (req, res) => {
     const { code } = req.query;
     try {
@@ -173,6 +169,105 @@ app.put("/auth/register", async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+});
+
+const puppeteer = require('puppeteer')
+
+async function scrape() {
+    const browser = await puppeteer.launch({});
+    const page = await browser.newPage();
+ 
+    await page.goto('https://www.scholarship.in.th/category/language-tips/page/1');
+ 
+    // ดึงจำนวน <article> จากหน้า
+    const content_number = await page.evaluate(() => {
+        const articles = document.querySelectorAll("#site-inner > main > div > div:nth-child(2) > div > div > div > div > article");
+        return articles.length; // คืนค่าจำนวนแท็ก <article>
+    });
+ 
+    let arr_news = []; // อาร์เรย์เก็บข้อมูลข่าว
+ 
+    // ลูปเพื่อดึงข้อมูลจากแต่ละ <article>
+    for (let i = 0; i < content_number; i++) {
+        const content = await page.evaluate((index) => {
+            const articles = document.querySelectorAll("#site-inner > main > div > div:nth-child(2) > div > div > div > div > article");
+            const article = articles[index]; // เลือกแท็ก <article> ตาม index
+ 
+            if (article) {
+                return {
+                    index: index,
+                    title: article.querySelector('h2') ? article.querySelector('h2').innerText : 'No title',
+                    image: article.querySelector('img') ? article.querySelector('img').src : 'No image',
+                    author: article.querySelector('div.author') ? article.querySelector('div.author').innerText : 'No author',
+                    date: article.querySelector('div.date') ? article.querySelector('div.date').innerText : 'No date',
+                    link: article.querySelector('a') ? article.querySelector('a').href : 'No link'
+                };
+            } else {
+                return { index: index, message: 'Article not found' };
+            }
+        }, i); // ส่ง index ให้กับ evaluate
+ 
+        arr_news.push(content); // เก็บข้อมูลที่ได้จากแต่ละ article
+    }
+ 
+    console.log(arr_news); // แสดงผลข้อมูลที่ดึงมา
+    await browser.close();
+ 
+    return arr_news; // คืนค่าข้อมูลทั้งหมด
+ }
+async function scrape_News() {
+    const browser = await puppeteer.launch({});
+    const page = await browser.newPage();
+ 
+    await page.goto('https://www.scholarship.in.th/');
+ 
+    // ดึงจำนวน <article> จากหน้า
+    const content_number = await page.evaluate(() => {
+        const articles = document.querySelectorAll(`#site-inner > main > div > div > div.elementor-element.elementor-element-78816c9a.e-flex.e-con-boxed.e-con.e-parent > div > div > div > div.elementor-element.elementor-element-46001d6a.elementor-widget.rivax-post-modern-widget > div > div > div.rivax-posts-wrapper.layout-grid > div   > article`);
+        return articles.length; // คืนค่าจำนวนแท็ก <article>
+    });
+ 
+    let arr_news = []; // อาร์เรย์เก็บข้อมูลข่าว
+ 
+    // ลูปเพื่อดึงข้อมูลจากแต่ละ <article>
+    for (let i = 0; i < content_number; i++) {
+        const content = await page.evaluate((index) => {
+            const articles = document.querySelectorAll(`#site-inner > main > div > div > div.elementor-element.elementor-element-78816c9a.e-flex.e-con-boxed.e-con.e-parent > div > div > div > div.elementor-element.elementor-element-46001d6a.elementor-widget.rivax-post-modern-widget > div > div > div.rivax-posts-wrapper.layout-grid > div > article`);
+            const article = articles[index]; // เลือกแท็ก <article> ตาม index
+ 
+            if (article) {
+                return {
+                    index: index,
+                    title: article.querySelector('.title > a') ? article.querySelector('.title > a').innerText : 'No title',
+                    image: article.querySelector('img') ? article.querySelector('img').src : 'No image',
+                    author: article.querySelector('.author-meta') ? article.querySelector('.author-meta').innerText : 'author',
+                    date: article.querySelector('.date') ? article.querySelector('.date').innerText : 'yyyy/mm/dd',
+                    link: article.querySelector('a') ? article.querySelector('a').href : 'No link'
+                };
+            } else {
+                return { index: index, message: 'Article not found' };
+            }
+        }, i); // ส่ง index ให้กับ evaluate
+ 
+        arr_news.push(content); // เก็บข้อมูลที่ได้จากแต่ละ article
+    }
+ 
+    console.log(arr_news); // แสดงผลข้อมูลที่ดึงมา
+    await browser.close();
+ 
+    return arr_news; // คืนค่าข้อมูลทั้งหมด
+ }
+ 
+
+app.get("/newsAndBlog/scraping/ScholarShip", async (req, res) => {
+    try {
+        const news = await scrape_News(); // เรียก scrape และรอผลลัพธ์
+        const Blog = await scrape(); // เรียก scrape และรอผลลัพธ์
+        res.status(200).json({website_name:'ScholarShip', website_url:'https://www.scholarship.in.th/' ,result:{news, Blog}}); // ส่งผลลัพธ์กลับ
+    } catch (error) {
+        console.error("Error scraping:", error);
+        res.status(500).json({ success: false, error: error.message }); // ส่งข้อผิดพลาด
     }
 });
 

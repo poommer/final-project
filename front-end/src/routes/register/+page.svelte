@@ -1,14 +1,8 @@
 <script>
     import axios from 'axios';
     import { goto } from '$app/navigation';
-    import { fail } from '@sveltejs/kit';
-  import Msg from '../../lib/component/msg.svelte';
 
-//     import { PUBLIC_BASE_API_URL } from '$env/static/public'
-//   import { parse } from 'svelte/compiler';
-
-    
-
+    export let prop_layout  ;
     let errorUpdate = false
 
     let username ;
@@ -22,6 +16,7 @@
 let funcCheck = async () => {
     if(localStorage.getItem('user')){
     userProps = await JSON.parse(localStorage.getItem('user'));
+    prop_layout = 'This is sent from +page.svelte';
     return userProps
     }else{
         sessionStorage.setItem('error', 'login, please.')
@@ -105,13 +100,12 @@ let keyupUpdate = async () =>{
 {#await funcCheck()}
     <p>loading...</p>
 {:then userlocal} 
-{#if userlocal && userlocal.user_status === 'wait verify'}
+<!-- {#if userlocal && userlocal.user_status === 'wait verify'} -->
     <div>
     <h1>welcome to register page ID: {userlocal.user_ID}</h1>
-{#if errorUpdate}
-<Msg status={false} text={'error, Fill in all fields.'} />
+<!-- {#if errorUpdate} -->
     <p class="text-ec-light-yellow">error, Fill in all fields.</p>
-{/if}
+<!-- {/if} -->
     <div>
         <div>  
             <label for="username">username</label>  
@@ -136,13 +130,13 @@ let keyupUpdate = async () =>{
     </div>
 </div>
 
-{:else}
-<h1>
+<!-- {:else} -->
+<!-- <h1>
         404 <br>
         <span>Not Found</span>
     </h1>
-{/if}
-{/await}
+{/if}-->
+{/await} 
     
 
 
