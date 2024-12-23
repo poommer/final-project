@@ -1,12 +1,21 @@
 <script>
+	import Word_Guessing from './../../../lib/qiuz/word_Guessing.svelte';
+	import Button from './../../../lib/components/button.svelte';
 	import Listen from './../../../lib/qiuz/listen.svelte';
 	import { page } from '$app/stores';
   import axios from "axios";
   import { name, set_progressLesson } from '../../../store/lesson';
+  import EchoWord from '../../../lib/qiuz/echo_Word.svelte';
+  import WordGuessing from '../../../lib/qiuz/word_Guessing.svelte';
   let lesson ;
   let content = [] ;
   let choice_Listen ;
   let Ans = '' ;
+  let coin = 0 ;
+  let score = 0 ;
+  let statusNext ;
+
+  let configEcho = {msg:'', ansCheck:false, maxAns:2, timeLeft:10, micStatus:false, NextWord:true} ;
   const load_data = async() => {
         const id = $page.url.pathname.split('/')[2];
 
@@ -36,10 +45,12 @@
             set_progressLesson.update(values => {
                 // อัปเดตเฉพาะ index 0
                 values[0].progress += (100/values[0].qty);
-                choice_Listen = content[0].data
-                Ans = '';
                 return values; // คืนค่า array เดิมที่ถูกปรับปรุงแล้ว
             });
+            choice_Listen = content[0].data
+            Ans = '';
+            coin += score;
+            configEcho = {msg:'', ansCheck:false, maxAns:2, timeLeft:10, micStatus:false, NextWord:true};
         }
         else if($set_progressLesson[1].progress < 99){
             set_progressLesson.update(values => {
@@ -69,6 +80,8 @@
                 return values; // คืนค่า array เดิมที่ถูกปรับปรุงแล้ว
             });
         }
+        score = 0
+        statusNext = false
     }
     
 </script>
@@ -81,6 +94,7 @@
     <!-- {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty)}
     {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - 4}
     {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - 8} -->
+    {coin}
         {#if Math.round($set_progressLesson[0].progress) < 99}
             <!-- <h1 class="text-3xl">Vocab</h1> -->
             {#if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length}
@@ -89,13 +103,28 @@
                 vocab={choice_Listen} 
                 word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty)]}
                 bind:Ans
+                bind:score
+                bind:statusNext
                  />
             {:else if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length*2}
-                read
+                <EchoWord
+                word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - content[0].data.length]}
+                configQuiz={configEcho}
+                bind:score
+                bind:statusNext
+                />
                 <p>{content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - content[0].data.length].word_en}</p> 
             {:else if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length*3}
-                spell
-                <p>{content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}</p> 
+                <WordGuessing
+                config={configEcho}
+                bind:score
+                bind:statusNext
+                imageURL={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].imageURL}
+                urlSound={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].soundURL}
+                word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}
+                word_TH={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_th}
+                />
+                <p>word     = {content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}</p> 
             {:else}
                 not
             {/if}
@@ -119,6 +148,12 @@
         {:else if Math.round($set_progressLesson[4].progress) < 100}
             {$set_progressLesson[4].progress}
         {/if}
-        <button on:click={next_page}>+</button>
+        <div class="h-14">
+            <Button 
+            SetHeight={true}
+            click={next_page}
+            options = {{bg:statusNext === true ? 'green' : 'primary', style:'style1', }}
+            >{statusNext === true  ? 'next' : 'skip'}</Button>
+        </div>
     {/await}
 </div>
