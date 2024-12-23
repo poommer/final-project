@@ -114,7 +114,8 @@
                     <div class="w-2/12 h-full flex items-center justify-center">
                         <p class={`w-[2rem] h-[2rem] border-2 rounded-md  text-2xl
                          ${option.check === true ? 'border-[#206400] shadow-[3px_3px_0px_0px_#206400]' : option.check === false ? 'bg-red-50 border-[#a33232] shadow-[3px_3px_0px_0px_#a33232] text-[#ef4444]' : 'border-ec-dark-blue-2 shadow-[2px_2px_0px_0px_#343946]'} `}>
-                            {option.check === true ? '✔' : option.check === false ? '✘' : index+1}
+                            {option.check === true ? '✔' 
+                            : option.check === false ? '✘' : index+1}
                         </p>
                     </div>
                     <div class="text-3xl w-10/12 flex items-center justify-center">
