@@ -9,7 +9,7 @@ export default {
         'ec-yellow-200': '#FFF686',
         'ec-light-yellow': '#FFE941',
         'ec-yellow-400': '#FFD70D',
-        'ec-yellow': '#FFC700',
+        'ec-yellow': '#F6D20C',
         'ec-yellow-600': '#D19100',
         'ec-yellow-700': '#A66702',
         'ec-yellow-800': '#89500A',
@@ -40,6 +40,13 @@ export default {
         'ec-green': '#00A725',
         'ec-gray': '#878686',
       }, 
+      fontSize:{
+        'header-1': ['70px', { lineHeight: '1.2'}],
+        'header-2': ['40px', { lineHeight: '1.2'}],
+        topic: ['32px', { lineHeight: '1.2' }],
+        sub: ['24px', { lineHeight: '1.4' }],
+        small: ['14px', { lineHeight: '1.5' }],
+      },
       backgroundImage: {
         'bg2': "url('bg2.png')",
       },

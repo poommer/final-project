@@ -18,6 +18,8 @@
         font-size: 24px;
       }
 
+      
+
       .btn {
         @apply  w-[20rem] h-14 rounded-lg flex items-center justify-center cursor-pointer active:translate-y-[5px] hover:translate-y-[5px]
       }
@@ -25,6 +27,28 @@
       .lesson-currant::before {
         @apply content-[var(--lesson-content)] text-ec-yellow  w-[5em] h-full absolute left-0
       }
+
+      /* กำหนดสไตล์สำหรับ scroll bar */
+::-webkit-scrollbar {
+  @apply w-[1rem]
+  
+}
+
+/* สไตล์ของแทร็ก (track) */
+::-webkit-scrollbar-track {
+ @apply ml-2 bg-[#d9d9d9a8] rounded-full 
+}
+
+/* สไตล์ของตัวเลื่อน (thumb) */
+::-webkit-scrollbar-thumb {
+   @apply bg-[#F7CB4E] rounded-full h-6 w-2 border-solid border-[3px] border-[#d9d9d9]
+}
+
+/* สไตล์เมื่อ hover ตัวเลื่อน */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* สีเมื่อเลื่อน mouse hover */
+}
+
   }
 
   @keyframes progressAnimation {

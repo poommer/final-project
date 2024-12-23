@@ -1,49 +1,21 @@
 <script>
-    import { onMount } from 'svelte';
-
-    // component import
-    import Button from "../lib/component/button.svelte";
-    import UserHomePage from '../lib/page/userHomePage.svelte';
-    import Login from '../lib/page/login.svelte';
-  import axios from 'axios';
-    
-    // variable
-    let error ;
-    let userCheck;
-
-
-/*****************************************************************/
-
-    onMount(async () => {
-
-        error = sessionStorage.getItem('error')
-        sessionStorage.removeItem('error')
-        userCheck = localStorage.getItem('user')
-        console.log(userCheck);
-
-        
-
- 
-
-})
+  import { onMount } from 'svelte';
+	import Homepage from '../lib/pages/homepage.svelte';
+import Login from './../lib/pages/login.svelte';
+let user
+    const loadData = async()=>{
+      user =  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : localStorage.getItem('user');
+      console.log(user);
+      return user
+    }
 </script>
-  
-<title>home page</title>
-  
-  <!-- โค้ดหน้าเว็บ -->
 
-<div class="w-full h-screen flex">
-    {#if userCheck === undefined}
-        loading....
-
- <!-- /* Login Zone */ -->
-    {:else if !userCheck}
-        <Login error={error}/>
-
-<!-- /* user Zone */ -->
-    {:else if userCheck}
-    <UserHomePage error={error} />
+{#await loadData()}
+loading...    
+{:then loaded} 
+    {#if user == null}
+        <Login />
+    {:else}
+        <Homepage />
     {/if}
-  
-</div>
-  
+{/await}
