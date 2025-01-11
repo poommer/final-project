@@ -15,7 +15,7 @@
   let score = 0 ;
   let statusNext ;
 
-  let configEcho = {msg:'', ansCheck:false, maxAns:2, timeLeft:10, micStatus:false, NextWord:true} ;
+  let configEcho = {msg:'test text ', ansCheck:false, maxAns:2, timeLeft:10, micStatus:false, NextWord:true} ;
   const load_data = async() => {
         const id = $page.url.pathname.split('/')[2];
 
@@ -86,7 +86,7 @@
     
 </script>
 
-<div>
+
     <!-- <h1>lesson</h1> -->
     {#await load_data()}
         loading Please Wait....
@@ -94,11 +94,9 @@
     <!-- {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty)}
     {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - 4}
     {Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - 8} -->
-    {coin}
         {#if Math.round($set_progressLesson[0].progress) < 99}
             <!-- <h1 class="text-3xl">Vocab</h1> -->
-            {#if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length}
-                <p>{content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty)].word_en}</p>                    
+            {#if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length}                 
                 <Listen 
                 vocab={choice_Listen} 
                 word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty)]}
@@ -113,7 +111,7 @@
                 bind:score
                 bind:statusNext
                 />
-                <p>{content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - content[0].data.length].word_en}</p> 
+                <!-- <p>{content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - content[0].data.length].word_en}</p>  -->
             {:else if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length*3}
                 <WordGuessing
                 config={configEcho}
@@ -124,7 +122,6 @@
                 word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}
                 word_TH={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_th}
                 />
-                <p>word     = {content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}</p> 
             {:else}
                 not
             {/if}
@@ -148,7 +145,7 @@
         {:else if Math.round($set_progressLesson[4].progress) < 100}
             {$set_progressLesson[4].progress}
         {/if}
-        <div class="h-14">
+        <div class="w-full h-14 mt-6">
             <Button 
             SetHeight={true}
             click={next_page}
@@ -156,4 +153,3 @@
             >{statusNext === true  ? 'next' : 'skip'}</Button>
         </div>
     {/await}
-</div>

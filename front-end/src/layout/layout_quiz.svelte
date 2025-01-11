@@ -77,8 +77,11 @@
           </div>
         </div>
       </header>
-      <main class="w-full flex flex-col justify-center items-center h-[85%] md:h-[90%] bg-[#FFFFFFD4] p-5 rounded-xl overflow-auto shadow-[0_0_5px_0_#00000096]">
+      <main class="w-full  h-[85%] md:h-[90%]  bg-[#FFFFFFD4] rounded-xl overflow-auto shadow-[0_0_5px_0_#00000096]">
+        <div class="w-full md:w-auto px-3 py-6">
           <slot  />
+        </div>
+        
       </main>  
     </div>
   </div>

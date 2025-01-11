@@ -64,8 +64,8 @@
 
 </script>
 
-<div class="w-full h-full flex flex-col md:flex-row gap-8">
-    <div class="h-[25rem] w-[20rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
+<div class="flex flex-col md:flex-row justify-center items-center md:gap-8">
+    <div class="h-[20rem] w-[15rem] md:h-[25rem] md:w-[25rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
         <div class="w-full h-[75%] flex justify-center items-center">
             <img src={word.imageURL} alt="" class="max-w-full max-h-full">
         </div>
@@ -90,9 +90,9 @@
         </div>
     </div>
 
-    <div>
+    <div class="w-full">
         <p>what is the word? (listen)</p>
-        <div class="a flex flex-col gap-5 ">
+        <div class=" flex flex-col gap-9 flex-grow">
             <!-- {Ans} -->
             {#each chioce as option,index}    
             <button on:click={
@@ -125,8 +125,8 @@
                 }
             } 
                 class={`
-                border-2 w-full md:w-[25rem] p-2 rounded-lg transition-all
-                disabled:cursor-not-allowed 
+                border-2 w-full p-2 rounded-lg transition-all
+                disabled:cursor-not-allowed
                 ${option.check === true 
                 ? 'bg-green-50 border-[#0DA100] shadow-[10px_10px_0px_0px_#0DA100] text-[#206400]' 
                 : option.check === false 

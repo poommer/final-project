@@ -23,14 +23,15 @@ let funcCheck = async () => {
     if(localStorage.getItem('user')){
     userProps = await JSON.parse(localStorage.getItem('user'));
     prop_layout = 'This is sent from +page.svelte';
+    if(userProps.user_status == 'verified'){
+          goto('/');
+        }
     return userProps
     }else{
         sessionStorage.setItem('error', 'login, please.')
         goto('/')
     }
 }
-
-
 
 
 
@@ -168,11 +169,11 @@ before:absolute before:bg-ec-yellow before:w-full before:h-[20rem] before:left-0
     </h1>
 
     {#if errorUpdate}
-    <p class="text-ec-yellow-700 bg-ec-light-yellow p-2 rounded-xl mt-2 shadow-[3px_3px_0px_0px_#abababfa]">error, Fill in all fields.</p>
+    <p class="w-full text-ec-yellow-700 bg-ec-light-yellow p-2 rounded-xl mt-2 shadow-[3px_3px_0px_0px_#abababfa]">error, Fill in all fields.</p>
     {/if}
 
     <div class="w-full md:w-[30rem] flex flex-col gap-2">
-            <p>let's get to know each other😍</p>
+            <p>Let's introduce ourselves. 🙋‍♂️🙋‍♀️✨</p>
             <Input 
             type='text'
             label='username'
