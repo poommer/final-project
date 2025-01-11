@@ -140,28 +140,39 @@ before:absolute before:bg-ec-yellow before:w-full before:h-[20rem] before:left-0
                   >
               </a>
             </div>
-            <!-- <div class="flex flex-col-reverse md:flex-col items-center md:items-start gap-2"> 
+            <div class="hidden md:flex flex-col-reverse md:flex-col items-center md:items-start gap-2"> 
               <p>
                   power by <a href="#" class="text-ec-yellow-700 underline">group 2</a>
               </p>
               <p>
                   Vocational Skills Development Project
               </p>
-            </div>-->
+            </div>
           </div>
 
         <div class="h-auto md:h-[90%] flex flex-col md:justify-center md:items-center">
-    <h1 class="text-6xl"><span class="text-3xl font-bold text-ec-yellow-700 ">
-        Hello welcome to </span>
-        <br>EC english <br>learning
+    <h1 class="text-3xl w-full md:w-[30rem] ">
+        <div class="h-[2.5rem] my-4">
+            <Button 
+                            options={{bg:'red', style:'style1'}}
+                            SetHeight={true}
+                            click={()=>{
+                                localStorage.removeItem('user'); 
+                                window.location = '/';
+                                }}>
+                                logout
+                            </Button>
+        </div>
+        Hello, welcome to 
+        <br><span class="text-6xl font-bold text-ec-yellow-600 ">EC english learning</span>
     </h1>
 
     {#if errorUpdate}
     <p class="text-ec-yellow-700 bg-ec-light-yellow p-2 rounded-xl mt-2 shadow-[3px_3px_0px_0px_#abababfa]">error, Fill in all fields.</p>
     {/if}
 
-    <div class="flex flex-col gap-2">
-
+    <div class="w-full md:w-[30rem] flex flex-col gap-2">
+            <p>let's get to know each other😍</p>
             <Input 
             type='text'
             label='username'
@@ -187,7 +198,7 @@ before:absolute before:bg-ec-yellow before:w-full before:h-[20rem] before:left-0
                 border-ec-dark-blue-3 shadow-[10px_10px_0_0_#3a4252] focus:shadow-[5px_5px_0_0_#3a4252] focus:translate-y-1 focus:translate-x-1
                 `}
             >
-                <label for="male" class={`w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all ${info.gender == 'male' ? 'bg-[#4099FF]' : 'bg-[#F6F6F6]'}`}>
+                <label for="male" class={`w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all cursor-pointer ${info.gender == 'male' ? 'bg-[#4099FF] hover:bg-[#3b7bc5]' : 'bg-[#F6F6F6] hover:bg-[#e9e9e9]'}`}>
                     <input type="radio" name="gender" value="male" id="male"  bind:group={info.gender} class="hidden" checked>
                     <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" class={`w-[32px] h-[32px] transition-all ${info.gender == 'male' ? 'fill-white' : 'fill-[#4099FF]'}`}>
                         <path
@@ -195,7 +206,7 @@ before:absolute before:bg-ec-yellow before:w-full before:h-[20rem] before:left-0
                     </svg>
                 </label>
 
-                <label for="female" class={`w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all ${info.gender == 'female' ? 'bg-[#DE6A91]' : 'bg-[#F6F6F6]'}`}>
+                <label for="female" class={`w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all cursor-pointer ${info.gender == 'female' ? 'bg-[#DE6A91] hover:bg-[#cf4774]' : 'bg-[#F6F6F6] hover:bg-[#e9e9e9]'}`}>
                     <input type="radio" name="gender" value="female" id="female"  bind:group={info.gender} class="hidden" checked>
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px"
                         y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"  class={`w-[32px] h-[32px] transition-all ${info.gender == 'female' ? 'fill-white' : 'fill-[#DE6A91]'}`}>
@@ -204,7 +215,7 @@ before:absolute before:bg-ec-yellow before:w-full before:h-[20rem] before:left-0
                     </svg>
                 </label>
 
-                <label for="other" class={` w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all ${info.gender == 'other' ? 'bg-[#BA4ACB]' : 'bg-[#F6F6F6]'}`}>
+                <label for="other" class={` w-[30%] p-2 flex justify-center items-center rounded-[10px] transition-all cursor-pointer ${info.gender == 'other' ? 'bg-[#BA4ACB] hover:bg-[#8c2f9b]' : 'bg-[#F6F6F6] hover:bg-[#e9e9e9]'}`}>
                     <input type="radio" name="gender" value="other" id="other"  bind:group={info.gender} class="hidden" checked> 
                     <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" class={`w-[32px] h-[32px] transition-all ${info.gender == 'other' ? 'fill-white' : 'fill-[#BA4ACB]'}`}>
                         <path

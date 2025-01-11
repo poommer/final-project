@@ -9,24 +9,30 @@
   let burger_status = false ;
 
     $: path = $page.url.pathname.split('/')[1] ;
-    $: user = {};
+    $: user = 0;
     
-    const loadLayout = async()=>{
-      if(localStorage.getItem('user')){
-        const loadLocal =   JSON.parse(localStorage.getItem('user')) ;
+
+
+    onMount(async() => {
+      const checkUser = await localStorage.getItem('user');
+      if(checkUser){
+        const loadLocal =  await JSON.parse(localStorage.getItem('user')) ;
         if(loadLocal.user_status == 'verified'){
           user = {...loadLocal} ;
           console.log(user);
+          console.log('user:true');
+          
         }else{
           user = null;
+          console.log('user:not Oauth');
           goto('/register');
         }
       }else{
+        console.log('user:not');
         user = null
         goto('/');
       }
-      
-    }
+    })
 
     // ฟังก์ชันปิดเมนูเมื่อคลิกนอก
   const closeMenus = (event) => {
@@ -50,15 +56,12 @@ if (!import.meta.env.SSR) {
   }
 
   </script>
-
-    <!-- page = {$page.url.pathname} -->
-
-{#await loadLayout()}
-<div class="loading-spinner">Loading...12</div>
-{:then} 
-{#if user === null}
+{#if user !== null && Object.keys(user).length < 1}
+loading...
+{:else if user === null}
 <slot  />
 {:else if path === 'admin'}
+admin
 <slot  />
 {:else if (path === 'quiz' && $page.url.pathname.split('/')[2]) || (path === 'lessons' && $page.url.pathname.split('/')[2])}
 <div class="w-full h-screen  fixed">
@@ -108,4 +111,3 @@ if (!import.meta.env.SSR) {
 </div>
 
 {/if}
-{/await}

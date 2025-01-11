@@ -6,9 +6,9 @@
     onMount(async () => {
             localStorage.setItem('user', JSON.stringify(data.user));
             if (data.status === 200 && data.user.user_status === 'verified') {
-                goto('/');
+                window.location = '/';
             } else {
-                goto('/user/register/');
+                window.location = '/user/register/';
             }
     });
 </script>

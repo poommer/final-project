@@ -9,7 +9,7 @@
 		"start": "node build/server/index.js"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.3.1",
+		"@sveltejs/adapter-auto": "^3.2.2",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"autoprefixer": "^10.4.19",
@@ -21,7 +21,6 @@
 	"type": "module",
 	"dependencies": {
 		"@octokit/rest": "^21.0.1",
-		"@sveltejs/adapter-node": "^5.2.11",
 		"animate.css": "^4.1.1",
 		"axios": "^1.7.2",
 		"chart.js": "^4.4.4",

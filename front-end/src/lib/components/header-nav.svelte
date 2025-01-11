@@ -16,7 +16,7 @@
 </script>
 <div class="header-nav w-full flex justify-between items-center bg-ec-yellow rounded-full px-5 py-[5px] border-2 border-ec-dark-blue-2 shadow-[5px_5px_0px_0px_#343946]">
     <a href="/" class="flex items-center justify-center gap-[10px]">
-        <img src="/favicon.png" alt="" class="w-[50px] h-[50px]">
+        <img src="/logo_for_white.png" alt="" class="w-[50px] h-[50px]">
         <h1 class="hidden sm:block text-ec-dark-blue-1 uppercase">EC english learning</h1>
     </a>
 
@@ -62,7 +62,8 @@
                         options={{bg:'red', style:'style1'}}
                         click={()=>{
                             localStorage.removeItem('user'); 
-                            goto('/')}}>
+                            window.location = '/';
+                            }}>
                             logout
                         </Button>
 
