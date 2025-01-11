@@ -1,14 +1,18 @@
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   kit: {
-    adapter: adapter({
-        out: 'build' // โฟลเดอร์ที่สร้าง output สำหรับ production
-    }),
-},
+    adapter: adapter()
+  },
   preprocess: vitePreprocess(),
+  "dependencies": {
+    "@sveltejs/adapter-auto": "^1.0.0", // หรือเวอร์ชันที่คุณใช้
+    // other dependencies
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0", // หรือเวอร์ชันที่คุณใช้
+    // other devDependencies
+  }
 };
-
 export default config;
