@@ -391,7 +391,7 @@ router.post('/:userID/statistic', async (req, res) => {
 50a
         */
         
-        const sql = "INSERT INTO `statistic_skill` ( `skill_username`, `skill_lesson`, `skill_ListeningFull`, `skill_ListeningReceived`, `skill_speakingFull`, `skill_speakingReceived`, `skill_readingFull`, `skill_readingReceived`, `skill_writingFull`, `skill_writingReceived`, `Vocab_Recognition`, `vocab_full`, `Vocab_learning`, `grammar_Received`, `grammar_full`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        const sql = "INSERT INTO `statistic_skill` ( `skill_username`, `skill_ListeningFull`, `skill_ListeningReceived`, `skill_speakingFull`, `skill_speakingReceived`, `skill_readingFull`, `skill_readingReceived`, `skill_writingFull`, `skill_writingReceived`, `Vocab_Recognition`, `vocab_full`, `Vocab_learning`, `grammar_Received`, `grammar_full`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         conn.execute(sql,data, (err, result) => {
             if (err) {
                 return res.status(500).json({ error: err.message });

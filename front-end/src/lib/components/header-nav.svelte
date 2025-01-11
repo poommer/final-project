@@ -1,5 +1,6 @@
 <script>
     	import { page } from '$app/stores';
+        import { goto } from '$app/navigation';
     import 'animate.css';
   import Button from './button.svelte';
     export let username ; 
@@ -59,7 +60,9 @@
 
                         <Button 
                         options={{bg:'red', style:'style1'}}
-                        click={()=>{localStorage.removeItem('user'); goto('/')}}>
+                        click={()=>{
+                            localStorage.removeItem('user'); 
+                            goto('/')}}>
                             logout
                         </Button>
 

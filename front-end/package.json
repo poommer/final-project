@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"start": "node build/server/index.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.3.1",
@@ -20,9 +21,11 @@
 	"type": "module",
 	"dependencies": {
 		"@octokit/rest": "^21.0.1",
+		"@sveltejs/adapter-node": "^5.2.11",
 		"animate.css": "^4.1.1",
 		"axios": "^1.7.2",
 		"chart.js": "^4.4.4",
+		"express": "^4.21.2",
 		"formidable": "^3.5.1",
 		"jsonwebtoken": "^9.0.2",
 		"moment-timezone": "^0.5.45",

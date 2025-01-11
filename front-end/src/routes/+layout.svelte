@@ -9,14 +9,18 @@
   let burger_status = false ;
 
     $: path = $page.url.pathname.split('/')[1] ;
-    console.log(path);
     $: user = {};
     
     const loadLayout = async()=>{
       if(localStorage.getItem('user')){
         const loadLocal =   JSON.parse(localStorage.getItem('user')) ;
-        user = {...loadLocal} ;
-        console.log(user);
+        if(loadLocal.user_status == 'verified'){
+          user = {...loadLocal} ;
+          console.log(user);
+        }else{
+          user = null;
+          goto('/register');
+        }
       }else{
         user = null
         goto('/');
