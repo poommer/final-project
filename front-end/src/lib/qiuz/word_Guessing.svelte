@@ -238,8 +238,8 @@ function handleClick() {
   
       </script>
   
-  <div class="h-full flex flex-col justify-center items-center md:flex-row">   
-    <div class="h-[20rem] w-[15rem] md:h-[25rem] md:w-[25rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
+  <div class="h-full flex flex-col justify-center items-center md:flex-row gap-4">   
+    <div class="h-[20rem] w-[15rem] md:h-[25rem] md:w-[20rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
         <div class="w-full h-[75%] flex justify-center items-center">
             <img src={imageURL} alt="" class="max-w-full max-h-full">
         </div>
@@ -264,7 +264,7 @@ function handleClick() {
         </div>
     </div>
 
-  <div class=" flex flex-col gap-4 justify-center items-center">
+  <div class="flex flex-col gap-4 justify-center items-center">
   <small>{msg}</small>
   <img src={image} alt="" class="max-w-[7em] bg-white shadow-[5px_5px_0px_0px_#1c9aff] rounded-[.5rem]">
   <div class="flex flex-wrap justify-center items-center gap-3">

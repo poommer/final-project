@@ -37,7 +37,7 @@
       let otherItems = data.filter(item => item.word_en !== specificWord);
   
       // สุ่มค่าอีก 2 ค่า
-      otherItems = shuffleArray(otherItems).slice(0, 3);
+      otherItems = shuffleArray(otherItems).slice(0, 2);
   
        // รวมค่าและ return เฉพาะ word_en และ soundURL
        return [...selectedItem, ...otherItems].map(item => ({
@@ -65,7 +65,7 @@
 </script>
 
 <div class="flex flex-col md:flex-row justify-center items-center md:gap-8">
-    <div class="h-[20rem] w-[15rem] md:h-[25rem] md:w-[25rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
+    <div class="h-[20rem] w-[15rem] md:h-[25rem] md:w-[30rem] flex flex-col justify-center items-center bg-white p-2 border-4 border-rose-700 rounded-3xl overflow-hidden">
         <div class="w-full h-[75%] flex justify-center items-center">
             <img src={word.imageURL} alt="" class="max-w-full max-h-full">
         </div>
