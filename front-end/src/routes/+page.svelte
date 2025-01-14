@@ -16,6 +16,8 @@ loading...
     {#if user == null}
         <Login />
     {:else}
-        <Homepage />
+    
+      <Homepage />
+
     {/if}
 {/await}

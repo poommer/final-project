@@ -17,7 +17,7 @@
             </div>
             <div class={`w-full flex justify-end items-center mr-6 ${data.lesHit_status !== null ? 'mt-5' : ''}`}>
                 <div class="w-[120px]">
-                    <Button click={()=>{goto(`lessons/${data.lesson_ID}`)}} typeBtn="A1" options={{bg:`${data.lesHit_status === '0' ? 'primary' : data.lesHit_status === '1' ? 'green' : 'disable'}`, style:'style1'}}>
+                    <Button click={()=>{goto(`lessons/${data.lesson_ID}/?s=${data.lesHit_status}`)}} typeBtn="A1" options={{bg:`${data.lesHit_status === '0' ? 'primary' : data.lesHit_status === '1' ? 'green' : 'disable'}`, style:'style1'}}>
                         {data.lesHit_status === '0' ? 'Start Now' : 'Start'}
                     </Button>
                 </div>
