@@ -16,6 +16,8 @@
   let coin = 0 ;
   let score = 0 ;
   let statusNext ;
+  let statusHit = false;
+  let lessonID;
 
   let configEcho = {msg:'', ansCheck:false, maxAns:2, timeLeft:10, micStatus:false, NextWord:true} ;
   const load_data = async() => {
@@ -35,17 +37,14 @@
     $set_progressLesson[2].qty = lesson.vocab.length
     $set_progressLesson[3].qty = lesson.sentence.length
     $set_progressLesson[4].qty = lesson.sentence.length
-    // $set_progressLesson[2].qty = 10
-    // $set_progressLesson[3].qty = lesson.sentence.length*3
-    // $set_progressLesson[0].progress = 0
     content.push({type:'lesson', data:lesson.vocab});
     content.push({type:'sentence', data:lesson.sentence});
-
-    console.log(content);
+    lessonID = respone.data.lesson;
     choice_Listen = content[0].data
 }
 
     const next_page = ()=>{
+        statusHit = false
         if($set_progressLesson[0].progress < 99){
             set_progressLesson.update(values => {
                 // อัปเดตเฉพาะ index 0
@@ -105,6 +104,82 @@
         score = 0
         statusNext = false
     }
+
+    const summary = async () => {
+            set_progressLesson.update(values => {
+                // อัปเดตเฉพาะ index 0
+                values[4].progress += (100/values[4].qty);
+                return values; // คืนค่า array เดิมที่ถูกปรับปรุงแล้ว
+            });
+            coin += score;
+            score = 0
+            statusNext = false
+
+            const userID = JSON.parse(localStorage.getItem('user')).user_ID  ;
+            console.log(userID);
+
+
+            const NextLessonID = parseInt(lessonID.split('-')[1]) + 1
+
+            console.log(NextLessonID);
+            
+            
+            const urls = [
+            `https://api-ecproject.poommer.in.th/api/user/${userID}/xp/1/`,
+            `https://api-ecproject.poommer.in.th/api/user/${userID}/coin/1/`
+            ];
+
+            // ข้อมูลที่ต้องการส่งไปยังแต่ละเส้นทาง
+            const payloads = [
+                {"amount":coin*2, "description":"earned from lesson"},
+                {"amount":coin, "description":"earned from lesson"},
+            ];
+
+            try {
+    // ใช้ Promise.all เพื่อส่ง POST ไปยังทุก URL พร้อม payload
+    const responses = await Promise.all(
+      urls.map((url, index) =>
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payloads[index]),
+        })
+      )
+    );
+
+    // ตรวจสอบและแปลงข้อมูลการตอบกลับเป็น JSON
+    let data = await Promise.all(
+      responses.map(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+    );
+
+   
+    // data = [...data, updateLesson.data];
+
+    const s = $page.url.searchParams.get('s');
+
+    if(s == 0){
+        const updateLesson = await axios.patch(`https://api-ecproject.poommer.in.th/api/lessons/enroll/`, {"lesson_ID":lessonID, "user_ID":userID})
+        const enroll = await axios.post(`https://api-ecproject.poommer.in.th/api/lessons/enroll/`, {"lesson_ID":`1-${NextLessonID}`, "user_ID":userID})
+        data = [...data, updateLesson.data, enroll.data];
+    }
+
+
+
+    // ใช้ข้อมูลที่ได้จากทุก API
+    console.log('Response from all endpoints:', data);
+  } catch (error) {
+    console.error('Error posting data:', error);
+  }
+            console.log({xp:coin*2, coin});
+            
+    }
     
 </script>
 
@@ -113,32 +188,14 @@
     {#await load_data()}
         loading Please Wait....
     {:then} 
-    coin:{coin} <br>
-    score:{score}
         {#if Math.round($set_progressLesson[0].progress) < 99}
-            <h1 class="text-3xl">Vocab</h1>
             <EchoWord
             word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) ]}
             configQuiz={configEcho}
             bind:score
             bind:statusNext
             />
-            <!-- {#if Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) < content[0].data.length}                 
-            {:else if Math.round((($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) >= 99 && ($set_progressLesson[1].progress/100)*$set_progressLesson[1].qty) < content[0].data.length}
- 
-            {:else if Math.round((($set_progressLesson[1].progress/100)*$set_progressLesson[1].qty) >= 99 && ($set_progressLesson[2].progress/100)*$set_progressLesson[2].qty) < content[0].data.length}
-                <WordGuessing
-                config={configEcho}
-                bind:score
-                bind:statusNext
-                imageURL={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].imageURL}
-                urlSound={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].soundURL}
-                word={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_en}
-                word_TH={content[0].data[Math.round(($set_progressLesson[0].progress/100)*$set_progressLesson[0].qty) - (content[0].data.length*2)].word_th}
-                />
-            {:else}
-                not
-            {/if} -->
+
         
         {:else if Math.round($set_progressLesson[1].progress) < 100 && $set_progressLesson[2].progress === 0}
         <Listen 
@@ -154,14 +211,13 @@
                 config={configEcho}
                 bind:score
                 bind:statusNext
-                imageURL={content[0].data[Math.round(($set_progressLesson[2].progress/100)*$set_progressLesson[2].qty)].imageURL}
                 urlSound={content[0].data[Math.round(($set_progressLesson[2].progress/100)*$set_progressLesson[2].qty)].soundURL}
                 word={content[0].data[Math.round(($set_progressLesson[2].progress/100)*$set_progressLesson[2].qty)].word_en}
                 word_TH={content[0].data[Math.round(($set_progressLesson[2].progress/100)*$set_progressLesson[2].qty)].word_th}
+                statusHit={statusHit}
             />
 
         {:else if Math.round($set_progressLesson[3].progress) < 100 && $set_progressLesson[4].progress === 0}
-        {($set_progressLesson[3].progress/100)*$set_progressLesson[3].qty}
         <Read
             word={content[1].data[Math.round(($set_progressLesson[3].progress/100)*$set_progressLesson[3].qty)]}
             configQuiz={configEcho}
@@ -170,7 +226,6 @@
             />
         
         {:else if Math.round($set_progressLesson[4].progress) < 100}
-        <h1>sentence</h1>
         <Writing
                 config={configEcho}
                 bind:score
@@ -188,7 +243,6 @@
 
         {/if}
         <div class="w-full h-14 mt-6">
-            {Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty)}
             {#if Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty)+1 < content[1].data.length}
                 <Button 
                 SetHeight={true}
@@ -198,9 +252,9 @@
                 {:else }
                 <Button 
                 SetHeight={true}
-                click={next_page}
-                options = {{bg:'green', style:'style2', }}
-                >next</Button>
+                click={summary}
+                options = {{bg:statusNext === true || Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length  ? 'green' : 'primary', style:'style2', }}
+                >{statusNext === true || Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length  ? 'next' : 'skip'}</Button>
                 
             {/if}
         </div>

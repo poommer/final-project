@@ -2,6 +2,7 @@
 
     import { onMount, afterUpdate, createEventDispatcher } from 'svelte';
     import 'animate.css';
+  import axios from 'axios';
   
       /** @type {import('./$types').PageData} */
       // export let data;
@@ -49,6 +50,24 @@ export let statusNext ;
 })
     
 
+    const get_sound_FormDictAPI = async(word) =>{
+        try{
+            const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.replace(/[^a-zA-Z]/g, '')}`);
+            const data = response.data[0].phonetics;
+            if(data[0].audio != ''){
+                return data[0].audio;
+            } else if(data.length > 1 && data[1].audio != ''){
+                return data[1].audio;
+            } else if(data.length > 2 && data[2].audio != ''){
+                return data[2].audio;
+            } else{
+                return false
+            }
+        }catch (err){
+            return false            
+        }
+    }
+
       const shuffleArray = (array) => {
           
           for(let r = 1; r<=3; r++){
@@ -66,7 +85,7 @@ export let statusNext ;
   const start_Item = async() => {
         AnsList = []
         char_word = await shuffleArray(word.split(" "))
-        char_word = await char_word.map((Item,i)=>{return {index:i, word:Item}})
+        char_word = await char_word.map((Item,i)=>{return {index:i, word:Item, sound:urlSound}})
   }
 
   // ฟังก์ชันเมื่อเริ่มลากไอเท็ม
@@ -85,12 +104,14 @@ export let statusNext ;
     event.preventDefault(); // ป้องกันไม่ให้เบราว์เซอร์ทำค่าเริ่มต้น
   }
 
-  const handleDropInDiv1 = (event) => {
+  const handleDropInDiv1 = async (event) => {
     event.preventDefault();
     const index = draggedChar.index; 
     console.log('index to===>',AnsList.includes(val=>{}));
     
     if(!AnsList.some(val => val.index === index)){
+        const soudWord_url = await get_sound_FormDictAPI(draggedChar.word);
+        playSound(soudWord_url);
         AnsList = [...AnsList, draggedChar];
         char_word.splice(char_word.findIndex(val=>val.index === index), 1);
         char_word = char_word;
@@ -99,6 +120,7 @@ export let statusNext ;
     draggedChar = null; // รีเซ็ตตัวแปร
     draggedindex = null
   }
+
   const handleDropInDiv2 = (event) => {
     event.preventDefault();
     const index = draggedChar.index; 
@@ -192,7 +214,7 @@ export let statusNext ;
       else if(rangeScore >= 80 && rangeScore <= 99){
           return 4
       }
-      else{
+      else  if(rangeScore >= 100 || word.split(" ").length === AnsList.length){
           return 5
       }
   
@@ -219,6 +241,9 @@ export let statusNext ;
       </script>
   
   <div class="h-full flex flex-col justify-center items-center  gap-4">   
+    {#if msg !== ''}
+            <p class={`p-2 mt-8 w-full flex justify-center items-center rounded-lg ${score === 5 ?'bg-green-500 text-green-50'  : 'bg-red-600 text-red-50'}`}>{msg}</p>
+    {/if}
     <div class="w-full">
         say the text.
         <div class="text-2xl p-2 flex justify-between items-center gap-2 rounded-lg bg-zinc-200 text-zinc-500">
@@ -242,16 +267,13 @@ export let statusNext ;
       
         </div>
     </div>
-    {#if msg !== ''}
-        <p class={`p-2 mt-8 w-full flex justify-center items-center rounded-lg`}>{msg}</p>
-    {/if}
 
-  <div class="flex flex-col gap-4 justify-center items-center">
+  <div class="w-full flex flex-col gap-4 justify-center items-center">
 
     <div 
      role="region"
     aria-label="Drop zone"
-    class="w-full min-h-[5rem] md:w-[30rem] flex  gap-4 flex-wrap p-4 rounded-xl text-center bg-white shadow-[10px_10px_0px_0px_#373C4A] border-2 border-ec-dark-blue-1"
+    class="w-full    min-h-[5rem]  flex  gap-4 flex-wrap p-4 rounded-xl text-center bg-white shadow-[10px_10px_0px_0px_#373C4A] border-2 border-ec-dark-blue-1"
     
     on:dragover={handleDragOver}
     on:drop={handleDropInDiv1}
@@ -296,15 +318,15 @@ export let statusNext ;
   
   
  
-  {#if maxAns > 0}
-  <div class={`w-full flex gap-4`}>
+</div>    
 
-      <!-- <button on:click={handleClick} class={`btn border-2  border-[#d3d3d3] w-[15rem] shadow-[10px_10px_0px_0px_#d3d3d3] hover:shadow-[5px_5px_0px_0px_#d3d3d3]`}>skip</button> -->
-      <button on:click={async() => {await checkAns(); console.log(score);}} class={`btn bg-[#00d730] w-full shadow-[0px_10px_0px_0px_#00a725] hover:shadow-[0px_5px_0px_0px_#01891f] hover:bg-[#02df33] `}>submit</button>
-    </div>
-    {/if}
-  </div>    
+</div>
+{#if maxAns > 0}
+<div class={`w-full flex gap-4 mt-4`}>
 
+    <!-- <button on:click={handleClick} class={`btn border-2  border-[#d3d3d3] w-[15rem] shadow-[10px_10px_0px_0px_#d3d3d3] hover:shadow-[5px_5px_0px_0px_#d3d3d3]`}>skip</button> -->
+    <button on:click={async() => {await checkAns(); console.log(score);}} class={`btn bg-[#00d730] w-full shadow-[0px_10px_0px_0px_#00a725] hover:shadow-[0px_5px_0px_0px_#01891f] hover:bg-[#02df33] `}>submit</button>
   </div>
+  {/if}
 
   <!-- <Keybord /> -->
