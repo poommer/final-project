@@ -32,7 +32,7 @@
         <div 
         class={`
         h-[50%] w-[75rem]
-        relative bg-[url('icon_compnnents/Item-background.png')] bg-cover bg-no-repeat 
+        relative bg-[url('/icon_compnnents/Item-background.png')] bg-cover bg-no-repeat 
         sm:before:contents
         xl:h-[580px] xl:w-[830px] flex flex-col justify-center items-center
         `}>
