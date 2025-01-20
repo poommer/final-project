@@ -115,6 +115,8 @@
             score = 0
             statusNext = false
 
+
+
             const userID = JSON.parse(localStorage.getItem('user')).user_ID  ;
             console.log(userID);
 
@@ -237,8 +239,17 @@
             />
         
         {:else}
-        <h1>end</h1>
-        coin: {coin}
+        <div class={`flex flex-col justify-center items-center bg-yellow-50 p-16 border-2 border-amber-500 rounded-lg font-bold text-amber-500`}>
+            <h1 class="text-5xl">SUMMARY</h1>
+            <div class={`flex items-center gap-4 text-5xl mt-4`}>
+                <img src="/icon/coin.png" alt="" class="w-16 h-16">
+                {coin}
+            </div>
+            <div class={`flex items-center gap-4 text-5xl`}>
+                <img src="/icon/xp.png" alt="" class="w-16 h-16">
+                {coin*2}
+            </div>
+        </div>
 
 
         {/if}
@@ -252,9 +263,9 @@
                 {:else }
                 <Button 
                 SetHeight={true}
-                click={summary}
+                click={Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length ? ()=>{window.location = '/lessons'} : summary}
                 options = {{bg:statusNext === true || Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length  ? 'green' : 'primary', style:'style2', }}
-                >{statusNext === true || Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length  ? 'next' : 'skip'}</Button>
+                >{statusNext === true  ? 'next' : Math.round(($set_progressLesson[4].progress/100)*$set_progressLesson[4].qty) === content[1].data.length ? 'exit' : 'skip'}</Button>
                 
             {/if}
         </div>

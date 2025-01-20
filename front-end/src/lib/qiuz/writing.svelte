@@ -41,6 +41,8 @@ export let statusNext ;
     let draggedChar = null; // ตัวแปรเก็บข้อมูลไอเท็มที่ถูกลาก
     let draggedindex = null; // ตัวแปรเก็บข้อมูลไอเท็มที่ถูกลาก
 
+    let soudWord_url ;
+
     afterUpdate(async () => {
         if(NextWord === true){
             
@@ -89,19 +91,26 @@ export let statusNext ;
   }
 
   // ฟังก์ชันเมื่อเริ่มลากไอเท็ม
-  const handleDragStart = (event, char, index) => {
+  const handleDragStart = async(event, char, index) => {
     
     draggedChar = char; // เก็บข้อมูลไอเท็มที่ถูกลาก
     // draggedindex = index
     event.dataTransfer.setData("text/plain", draggedChar);
 
     // เพิ่มคลาส 'opacity-50' จาก Tailwind เมื่อเริ่มลาก
-    event.target.classList.add("opacity-50", "cursor-grabbing", "animate-pulse");
+    event.target.classList.add("opacity-0", "cursor-grabbing", "animate-pulse");
+     soudWord_url = await get_sound_FormDictAPI(draggedChar.word);
   }
 
   // ฟังก์ชันเมื่อไอเท็มถูกลากมาวางเหนือเป้าหมาย
-  const handleDragOver = (event) => {
+  const handleDragOver = (event, index) => {
     event.preventDefault(); // ป้องกันไม่ให้เบราว์เซอร์ทำค่าเริ่มต้น
+    console.log(index);
+    
+    // if (index !== draggedChar.index) {
+    //     alert(index);
+    // }
+
   }
 
   const handleDropInDiv1 = async (event) => {
@@ -110,7 +119,6 @@ export let statusNext ;
     console.log('index to===>',AnsList.includes(val=>{}));
     
     if(!AnsList.some(val => val.index === index)){
-        const soudWord_url = await get_sound_FormDictAPI(draggedChar.word);
         playSound(soudWord_url);
         AnsList = [...AnsList, draggedChar];
         char_word.splice(char_word.findIndex(val=>val.index === index), 1);
@@ -284,7 +292,7 @@ export let statusNext ;
           class={`min-w-[1rem] h-12 p-2 flex justify-center items-center text-3xl rounded-md transition-all border-[1px] bg-white  shadow-[2px_2px_5px_0px_#373C4A]  text-ec-yellow-600 cursor-grab active:cursor-grabbing`} 
           draggable="true"
           on:dragstart={(event)=>{handleDragStart(event, words)}}
-          on:dragover={handleDragOver}
+          on:dragover={(event)=>{handleDragOver(event, i)}}
           on:dragend={(event)=>{
             event.target.classList.remove("opacity-50", "cursor-grabbing", "animate-pulse");}}
           >
@@ -302,16 +310,20 @@ export let statusNext ;
   aria-label="Drop zone"
   >
       {#each char_word as char, i }
+      <div 
+      class={`min-w-[1rem] h-12 flex justify-center items-center text-3xl rounded-md transition-all border-[1px] bg-white  shadow-[2px_2px_5px_0px_#373C4A]  text-ec-yellow-600 cursor-grab active:cursor-grabbing`} 
+      >
           <p 
           class={`min-w-[1rem] h-12 p-2 flex justify-center items-center text-3xl rounded-md transition-all border-[1px] bg-white  shadow-[2px_2px_5px_0px_#373C4A]  text-ec-yellow-600 cursor-grab active:cursor-grabbing`} 
           draggable="true"
           on:dragstart={(event)=>{handleDragStart(event, char)}}
-          on:dragover={handleDragOver}
+          on:dragover={(event)=>{handleDragOver(event, i)}}
           on:dragend={(event)=>{
-            event.target.classList.remove("opacity-50", "cursor-grabbing", "animate-pulse");}}
+            event.target.classList.remove("opacity-0", "cursor-grabbing", "animate-pulse");}}
           >
           {char.word}
         </p>
+      </div>
       {/each}
       
   </div>
