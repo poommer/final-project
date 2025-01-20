@@ -72,7 +72,7 @@ let register = async (userID) => {
             const dataU = await JSON.parse(localStorage.getItem('user'));
             const status = 'verified'
             localStorage.setItem('user',JSON.stringify({...dataU, user_name:username, user_status:status}))
-            goto('/')
+            window.location = '/';
         }
     }
 }else{
