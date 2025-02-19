@@ -593,14 +593,13 @@ router.get('/detail/:lesID', async (req, res) =>{
         const {lesID} = req.params
         let vocab = await axios.get(`${urlAPI}/lessons/set/vocab/lev/${lesID}`) ;
         let sentence = await axios.get(`${urlAPI}/lessons/set/sentence/${lesID}`) ;
-        let conversation = await axios.get(`${urlAPI}/lessons/conversation/conver-${lesID}/content`) ;
+
 
         const responseData = {
             status:200,
             lesson:lesID,
             vocab: vocab.data.response,
             sentence: sentence.data.response,
-            conversation: conversation.data.response
         };
 
         res.status(200).json(responseData)

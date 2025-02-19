@@ -4,15 +4,19 @@
   import ChartUser from "../components/chartUser.svelte";
   import Input from "../components/input.svelte";
   import Ranking from "../components/ranking.svelte";
+  import News from "../components/news.svelte";
+
 
   let rank;
+  let user_ID ;
 
   let profileData = async () => {
     const dataLocal =  JSON.parse(localStorage.getItem('user'))
+    user_ID = dataLocal.user_ID;
     const response = await axios.get(`https://api-ecproject.poommer.in.th/api/user/rank?user_ID=${dataLocal.user_ID}`)
     rank = response.data
     console.log(rank);
-    
+
 }
 
 </script>
@@ -39,16 +43,16 @@
    <div class="h-full md:h-[43rem] w-full lg:w-[40%]  flex flex-col">
         <div class="w-full  h-full flex flex-col ">
             <div class="flex gap-3 items-center">
-                <img src="/icons/ranking-stars.svg" alt="" class="p-[10px] bg-ec-dark-blue-2 rounded-lg">
+                <img src="/icon/circle-user.svg" alt="" class="p-[10px]  bg-ec-dark-blue-2 rounded-lg">
                 <div class="flex flex-col uppercase justify-between">
-                    <h2 class="text-4xl">Progress Chart</h2>
-                    <p class="text-base">Skills gained from studying</p>
+                    <h2 class="text-4xl">Profile</h2>
+                    <p class="text-base">My profile</p>
                 </div>
             </div>
 
             <div class="w-full h-full mt-4 flex justify-center items-center border-2 border-ec-dark-blue-2 rounded-lg shadow-[10px_10px_0_0_#282C36] bg-white">
                 <div class="w-[80%]">
-                    <ChartUser />
+                    <ChartUser user_ID={user_ID} />
                 </div>
             </div>
         </div> 
@@ -63,8 +67,8 @@
             </div>
         </div>
 
-        <div class="w-full h-full mt-4 flex flex-col justify-center items-start gap-4 border-2 border-ec-dark-blue-2 rounded-lg shadow-[10px_10px_0_0_#282C36] bg-white overflow-auto">
-            
+        <div class="w-full h-full mt-4 flex flex-col items-start gap-4 border-2 border-ec-dark-blue-2 rounded-lg shadow-[10px_10px_0_0_#282C36] bg-white overflow-auto">
+            <News />
         </div>
     </div>  
 </div>

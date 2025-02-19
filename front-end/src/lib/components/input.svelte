@@ -11,7 +11,7 @@ export let name = '';
 export let id = '';
 export let validateMSG = 'message';
 export let value = '';
-
+export let readonly = false;
 const updateValue = () => {
     dispatch('update', value); // ส่งค่ากลับไปให้แม่
   };
@@ -27,10 +27,11 @@ const updateValue = () => {
     type='text'
     name={name}
     id={id}
+    readonly={readonly}
 
     
     class={`
-    w-full text-2xl p-2 rounded-md border-2 ring-0 focus:ring-0 outline-0 transition-all  
+    w-full text-2xl p-2 rounded-md border-2 ring-0 focus:ring-0 outline-0 transition-all read-only:focus:shadow-[10px_10px_0_0_#3a4252] read-only:focus:translate-y-0 read-only:focus:translate-x-0 
     ${validate === true 
     ? 'border-green-500 shadow-[5px_5px_0_0_#22c55e] translate-x-1 focus:shadow-[10px_10px_0_0_#22c55e] focus:translate-x-0' 
     : validate === false 

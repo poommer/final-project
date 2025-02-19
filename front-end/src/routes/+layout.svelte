@@ -21,13 +21,13 @@
           user = {...loadLocal} ;
           console.log(user);
           console.log('user:true');
-          
-        }else{
+        }
+        else{
           user = null;
           console.log('user:not Oauth');
           goto('/register');
         }
-      }else{
+      }else if(path !== 'admin'){
         console.log('user:not');
         user = null
         goto('/');
@@ -56,12 +56,9 @@ if (!import.meta.env.SSR) {
   }
 
   </script>
-{#if user !== null && Object.keys(user).length < 1}
+{#if user !== null && Object.keys(user).length < 1 && path !== 'admin'}
 loading...
-{:else if user === null}
-<slot  />
-{:else if path === 'admin'}
-admin
+{:else if user === null || path == 'admin'}
 <slot  />
 {:else if (path === 'quiz' && $page.url.pathname.split('/')[2]) || (path === 'lessons' && $page.url.pathname.split('/')[2])}
 <div class="w-full h-screen  fixed">
@@ -74,7 +71,6 @@ admin
 
 {:else }
 <div class="h-lvh bg-[#F2F2F2] bg-[url('/background.png')] bg-no-repeat bg-cover bg-center " >
-  <a class="underline text-cyan-600" href="https://docs.google.com/forms/d/e/1FAIpQLSd3AxNXDsI0ks3qUq2UkCL1On4XU2fCkPkOa0EPsIIskqC8IQ/viewform">ประเมินจ้า</a>
   <div class="h-full p-[10px] sm:p-5">
     <header class="h-[10%] ">
       <HeaderNav 

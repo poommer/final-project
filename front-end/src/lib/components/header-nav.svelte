@@ -37,10 +37,10 @@
         </li>
         <li class={`${path === 'lessons' ? active : 'before:w-0'} ${nav_hover}`}>
             <a href="/lessons">LESSONS</a>
-        </li>
-        <li class={`${path === 'quiz' && !$page.url.pathname.split('/')[2] ? active : 'before:w-0'} ${nav_hover} `}>
-            <a href="/quiz">QUIZ</a>
-        </li>   
+        </li> 
+        <li class={`$ ${nav_hover}`}>
+            <a target="_blank"  href="https://docs.google.com/forms/d/e/1FAIpQLSd3AxNXDsI0ks3qUq2UkCL1On4XU2fCkPkOa0EPsIIskqC8IQ/viewform">ประเมิน</a>
+        </li> 
         <li on:click|stopPropagation>
             <button on:click={()=>{profile_status = !profile_status}} class={`flex justify-center items-center gap-2 ${path === 'user' ? active : 'before:w-0'} ${nav_hover}`}>
                 <span class="hidden md:block">{username}</span>
@@ -53,9 +53,6 @@
                 md:shadow-[5px_5px_0px_0px_#373C4A] md:p-2 md:rounded-md md:border-2 md:border-[#373C4A]
                 sm:text-xl  
                `}>
-                   <li class={`${$page.url.pathname.split('/')[2] && $page.url.pathname.split('/')[2] !== 'history'  ? active : 'before:w-0'} ${nav_hover}`}><a href={`/user/${id}`}>My Profile</a></li>
-                   <li  class={`${path === 'mission' ? active : 'before:w-0'} ${nav_hover}`}><a href="/mission">my mission</a></li> 
-                   <li  class={`${$page.url.pathname.split('/')[2] === 'history'  ? active : 'before:w-0'} ${nav_hover}`}><a href="/quiz/history">Quiz history</a></li>
                    <li class="mt-4 p-2 rounded-2xl flex justify-center items-center">
 
                         <Button 
