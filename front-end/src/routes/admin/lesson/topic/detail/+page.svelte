@@ -21,7 +21,7 @@
 
     const load_data = async()=>{
         const data = [];
-        const response_hearding = await axios.get(`https://api-ecproject.poommer.in.th/api/lessons/topic/1?lev=${id.split('-')[0]}`)
+        const response_hearding = await axios.get(`https://api-ecproject.poommer.in.th/api/lessons/topic/1?lev=${id.split('-')[1]}`)
         const response = await axios.get(`https://api-ecproject.poommer.in.th/api/lessons/detail/${id}`)
 
         data.push({heading:response_hearding.data.response})
